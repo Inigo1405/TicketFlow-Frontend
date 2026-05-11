@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>TicketFlow – Wireframes</title>
+  <link rel="stylesheet" href="wf.css">
+  <style>
+    body { padding: 40px 20px; }
+    .index-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; max-width: 900px; margin: 0 auto; }
+    .index-card { background: #fff; border: 1px solid #ccc; padding: 0; text-decoration: none; color: inherit; display: block; }
+    .index-card:hover { border-color: #888; }
+    .index-card-thumb { height: 120px; background: #e8e8e8; border-bottom: 1px solid #ddd; display: flex; align-items: center; justify-content: center; }
+    .index-card-body { padding: 14px 16px; }
+    .index-card-num { font-size: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; }
+    .index-card-title { font-size: 14px; font-weight: bold; margin-bottom: 4px; }
+    .index-card-desc { font-size: 11px; color: #888; }
+    .index-card-role { display: inline-block; font-size: 10px; background: #e8e8e8; border: 1px solid #ccc; padding: 1px 6px; margin-top: 8px; color: #555; }
+    h1 { text-align: center; font-size: 26px; margin-bottom: 6px; }
+    p.lead { text-align: center; color: #888; font-size: 13px; margin-bottom: 32px; }
+    .divider { border: none; border-top: 1px dashed #ccc; margin: 24px auto; max-width: 900px; }
+    .section-label { max-width: 900px; margin: 0 auto 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #aaa; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h1>TicketFlow &mdash; Wireframes</h1>
+  <p class="lead">Interfaz de baja fidelidad &bull; 7 pantallas &bull; 3 roles: Admin, Agente, Cliente</p>
+
+  <div class="section-label">Autenticación</div>
+  <div class="index-grid" style="margin-bottom:24px;">
+    <a href="01-login.html" class="index-card">
+      <div class="index-card-thumb">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <rect x="20" y="10" width="40" height="50" fill="#d0d0d0"/>
+          <rect x="28" y="28" width="24" height="6" fill="#bbb"/>
+          <rect x="28" y="38" width="24" height="6" fill="#bbb"/>
+          <rect x="28" y="50" width="24" height="8" fill="#888"/>
+        </svg>
+      </div>
+      <div class="index-card-body">
+        <div class="index-card-num">Pantalla 01</div>
+        <div class="index-card-title">Login</div>
+        <div class="index-card-desc">Formulario de acceso con acceso rápido por rol</div>
+        <span class="index-card-role">Todos los roles</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="section-label">Admin / Agente</div>
+  <div class="index-grid" style="margin-bottom:24px;">
+    <a href="02-dashboard.html" class="index-card">
+      <div class="index-card-thumb">
+        <svg width="120" height="80" viewBox="0 0 120 80" fill="none">
+          <rect x="5" y="8" width="25" height="22" fill="#d0d0d0"/>
+          <rect x="33" y="8" width="25" height="22" fill="#d0d0d0"/>
+          <rect x="61" y="8" width="25" height="22" fill="#d0d0d0"/>
+          <rect x="89" y="8" width="25" height="22" fill="#d0d0d0"/>
+          <rect x="5" y="35" width="109" height="6" fill="#e0e0e0"/>
+          <rect x="5" y="44" width="109" height="6" fill="#e8e8e8"/>
+          <rect x="5" y="53" width="109" height="6" fill="#e0e0e0"/>
+          <rect x="5" y="62" width="109" height="6" fill="#e8e8e8"/>
+        </svg>
+      </div>
+      <div class="index-card-body">
+        <div class="index-card-num">Pantalla 02</div>
+        <div class="index-card-title">Dashboard</div>
+        <div class="index-card-desc">KPIs, filtros y tabla de tickets (filtrada por área para Agente)</div>
+        <span class="index-card-role">Admin</span>
+        <span class="index-card-role">Agente</span>
+      </div>
+    </a>
+    <a href="03-alerts.html" class="index-card">
+      <div class="index-card-thumb">
+        <svg width="120" height="80" viewBox="0 0 120 80" fill="none">
+          <rect x="5" y="8" width="35" height="22" fill="#d0d0d0"/>
+          <rect x="43" y="8" width="35" height="22" fill="#d0d0d0"/>
+          <rect x="81" y="8" width="35" height="22" fill="#d0d0d0"/>
+          <rect x="5" y="36" width="109" height="12" fill="#ffe0e0"/>
+          <rect x="5" y="52" width="109" height="12" fill="#fff3e0"/>
+          <rect x="5" y="66" width="109" height="12" fill="#e8f0ff"/>
+        </svg>
+      </div>
+      <div class="index-card-body">
+        <div class="index-card-num">Pantalla 03</div>
+        <div class="index-card-title">Alertas</div>
+        <div class="index-card-desc">Centro de notificaciones con estadísticas y lista de alertas</div>
+        <span class="index-card-role">Admin</span>
+        <span class="index-card-role">Agente</span>
+      </div>
+    </a>
+    <a href="06-modal-agente.html" class="index-card">
+      <div class="index-card-thumb">
+        <svg width="100" height="80" viewBox="0 0 100 80" fill="none">
+          <rect x="15" y="5" width="70" height="70" fill="#f0f0f0" stroke="#bbb"/>
+          <rect x="15" y="5" width="70" height="14" fill="#e0e0e0"/>
+          <rect x="20" y="24" width="60" height="4" fill="#ccc"/>
+          <rect x="20" y="32" width="60" height="4" fill="#ccc"/>
+          <rect x="20" y="44" width="60" height="12" fill="#e0e0f8"/>
+          <rect x="20" y="60" width="60" height="8" fill="#e8e8e8"/>
+        </svg>
+      </div>
+      <div class="index-card-body">
+        <div class="index-card-num">Pantalla 06</div>
+        <div class="index-card-title">Detalle de Ticket (Agente)</div>
+        <div class="index-card-desc">Modal con edición de prioridad/notas e hilo de comentarios</div>
+        <span class="index-card-role">Admin</span>
+        <span class="index-card-role">Agente</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="section-label">Cliente</div>
+  <div class="index-grid" style="margin-bottom:24px;">
+    <a href="04-create-ticket.html" class="index-card">
+      <div class="index-card-thumb">
+        <svg width="100" height="80" viewBox="0 0 100 80" fill="none">
+          <rect x="10" y="8" width="80" height="8" fill="#d0d0d0"/>
+          <rect x="10" y="22" width="80" height="6" fill="#e0e0e0"/>
+          <rect x="10" y="33" width="80" height="18" fill="#e0e0e0"/>
+          <rect x="10" y="57" width="35" height="8" fill="#e0e0e0"/>
+          <rect x="55" y="57" width="35" height="8" fill="#333"/>
+        </svg>
+      </div>
+      <div class="index-card-body">
+        <div class="index-card-num">Pantalla 04</div>
+        <div class="index-card-title">Crear Ticket</div>
+        <div class="index-card-desc">Formulario de creación (título, descripción, categoría)</div>
+        <span class="index-card-role">Todos los roles</span>
+      </div>
+    </a>
+    <a href="05-my-tickets.html" class="index-card">
+      <div class="index-card-thumb">
+        <svg width="120" height="80" viewBox="0 0 120 80" fill="none">
+          <rect x="5" y="8" width="80" height="12" fill="#d0d0d0"/>
+          <rect x="90" y="8" width="25" height="12" fill="#333"/>
+          <rect x="5" y="26" width="109" height="6" fill="#e0e0e0"/>
+          <rect x="5" y="35" width="109" height="6" fill="#e8e8e8"/>
+          <rect x="5" y="44" width="109" height="6" fill="#e0e0e0"/>
+          <rect x="5" y="53" width="109" height="6" fill="#e8e8e8"/>
+          <rect x="5" y="62" width="109" height="6" fill="#e0e0e0"/>
+        </svg>
+      </div>
+      <div class="index-card-body">
+        <div class="index-card-num">Pantalla 05</div>
+        <div class="index-card-title">Mis Tickets</div>
+        <div class="index-card-desc">Vista de tickets propios del cliente con link a seguimiento</div>
+        <span class="index-card-role">Cliente</span>
+      </div>
+    </a>
+    <a href="07-modal-cliente.html" class="index-card">
+      <div class="index-card-thumb">
+        <svg width="100" height="80" viewBox="0 0 100 80" fill="none">
+          <rect x="15" y="5" width="70" height="70" fill="#f0f0f0" stroke="#bbb"/>
+          <rect x="15" y="5" width="70" height="14" fill="#e0e0e0"/>
+          <rect x="20" y="24" width="60" height="4" fill="#ccc"/>
+          <rect x="20" y="32" width="60" height="4" fill="#ccc"/>
+          <rect x="20" y="44" width="60" height="8" fill="#fff" stroke="#ddd"/>
+          <rect x="20" y="56" width="60" height="8" fill="#fff" stroke="#ddd"/>
+          <rect x="20" y="68" width="60" height="6" fill="#e8e8e8"/>
+        </svg>
+      </div>
+      <div class="index-card-body">
+        <div class="index-card-num">Pantalla 07</div>
+        <div class="index-card-title">Detalle de Ticket (Cliente)</div>
+        <div class="index-card-desc">Modal de solo lectura con respuestas del equipo de soporte</div>
+        <span class="index-card-role">Cliente</span>
+      </div>
+    </a>
+  </div>
+
+  <hr class="divider">
+  <p style="text-align:center;" class="text-gray">TicketFlow &bull; Wireframes de baja fidelidad &bull; Mayo 2026</p>
+</body>
+</html>

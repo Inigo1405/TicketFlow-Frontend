@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>WF-01 Login – TicketFlow</title>
+  <link rel="stylesheet" href="wf.css">
+</head>
+<body>
+
+  <!-- Barra de navegación entre wireframes -->
+  <div class="wf-topbar">
+    <span class="wf-topbar-title">WF:</span>
+    <a href="index.html">Índice</a>
+    <a href="01-login.html" class="current">01 Login</a>
+    <a href="02-dashboard.html">02 Dashboard</a>
+    <a href="03-alerts.html">03 Alertas</a>
+    <a href="04-create-ticket.html">04 Crear Ticket</a>
+    <a href="05-my-tickets.html">05 Mis Tickets</a>
+    <a href="06-modal-agente.html">06 Modal Agente</a>
+    <a href="07-modal-cliente.html">07 Modal Cliente</a>
+  </div>
+
+  <div class="wf-login-page">
+
+    <div class="wf-login-card">
+
+      <!-- Marca -->
+      <div class="wf-login-brand">
+        <div class="wf-login-logo">
+          <!-- Icono ticket simplificado -->
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <rect x="4" y="8" width="28" height="20" rx="1" fill="none" stroke="white" stroke-width="2"/>
+            <path d="M4 14h28" stroke="white" stroke-width="1.5"/>
+            <rect x="8" y="18" width="8" height="2" fill="white"/>
+            <rect x="8" y="22" width="14" height="2" fill="white"/>
+          </svg>
+        </div>
+        <div class="wf-login-title">TicketFlow</div>
+        <div class="wf-login-subtitle">Sistema de gestión de tickets de soporte</div>
+      </div>
+
+      <!-- Formulario -->
+      <div class="wf-field">
+        <label class="wf-label">Correo electrónico</label>
+        <input type="text" class="wf-input-underline" placeholder="usuario@empresa.com" disabled>
+      </div>
+
+      <div class="wf-field">
+        <label class="wf-label">Contraseña</label>
+        <input type="text" class="wf-input-underline" placeholder="••••••••" disabled>
+      </div>
+
+      <div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
+        <label style="display:flex; align-items:center; gap:6px; font-size:12px; color:#888; cursor:default;">
+          <span style="width:12px;height:12px;border:1.5px solid #aaa;display:inline-block;"></span>
+          Recordarme
+        </label>
+        <span style="font-size:12px; color:#aaa; text-decoration:underline; cursor:pointer;">¿Olvidaste tu contraseña?</span>
+      </div>
+
+      <button class="wf-btn w-full" style="padding:10px; margin-bottom:4px;">Iniciar sesión</button>
+
+      <p class="wf-note" style="text-align:center; margin-top:8px;">
+        Mensaje de error aparece aquí cuando credenciales son inválidas
+      </p>
+
+      <!-- Acceso rápido -->
+      <div class="wf-quick-access">
+        <div class="wf-quick-title">Acceso rápido &mdash; entorno de desarrollo</div>
+        <div class="wf-quick-grid">
+
+          <div class="wf-quick-btn">
+            <strong>Demo User</strong>
+            <span>Admin</span>
+            <span style="display:block; color:#bbb; margin-top:2px;">demo@...</span>
+          </div>
+
+          <div class="wf-quick-btn">
+            <strong>Carlos López</strong>
+            <span>Agente</span>
+            <span style="display:block; color:#bbb; margin-top:2px;">carlos@...</span>
+          </div>
+
+          <div class="wf-quick-btn">
+            <strong>María García</strong>
+            <span>Cliente</span>
+            <span style="display:block; color:#bbb; margin-top:2px;">cliente@...</span>
+          </div>
+
+        </div>
+        <p class="wf-note" style="text-align:center; margin-top:8px;">Solo visible en VITE_MOCK_MODE=true</p>
+      </div>
+
+    </div>
+
+    <!-- Anotaciones -->
+    <div style="max-width:400px; width:100%; margin-top:12px;">
+      <p class="wf-note">Tras login: Cliente → /my-tickets &nbsp;|&nbsp; Admin/Agente → /dashboard</p>
+    </div>
+
+  </div>
+
+</body>
+</html>

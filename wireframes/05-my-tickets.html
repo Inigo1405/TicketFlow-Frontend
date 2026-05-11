@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>WF-05 Mis Tickets – TicketFlow</title>
+  <link rel="stylesheet" href="wf.css">
+</head>
+<body>
+
+  <!-- Barra de navegación entre wireframes -->
+  <div class="wf-topbar">
+    <span class="wf-topbar-title">WF:</span>
+    <a href="index.html">Índice</a>
+    <a href="01-login.html">01 Login</a>
+    <a href="02-dashboard.html">02 Dashboard</a>
+    <a href="03-alerts.html">03 Alertas</a>
+    <a href="04-create-ticket.html">04 Crear Ticket</a>
+    <a href="05-my-tickets.html" class="current">05 Mis Tickets</a>
+    <a href="06-modal-agente.html">06 Modal Agente</a>
+    <a href="07-modal-cliente.html">07 Modal Cliente</a>
+  </div>
+
+  <!-- Navbar – versión Cliente -->
+  <nav class="wf-nav">
+    <div class="wf-nav-brand">
+      <div class="wf-nav-logo">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <rect x="2" y="4" width="16" height="12" rx="1" stroke="white" stroke-width="1.5"/>
+          <path d="M2 8h16" stroke="white" stroke-width="1"/>
+        </svg>
+      </div>
+      <span class="wf-nav-title">TicketFlow</span>
+    </div>
+    <div class="wf-nav-links">
+      <span class="wf-nav-link active">Mis Tickets</span>
+      <span class="wf-nav-link">Nuevo Ticket</span>
+    </div>
+    <div class="wf-nav-right">
+      <div class="wf-nav-info"><strong>María García</strong><span>Cliente</span></div>
+      <div class="wf-nav-avatar"></div>
+      <button class="wf-nav-btn">Salir</button>
+    </div>
+  </nav>
+
+  <!-- Contenido principal -->
+  <div class="container">
+
+    <!-- Encabezado -->
+    <div class="page-header">
+      <div>
+        <div class="page-title">Mis Tickets</div>
+        <div class="page-subtitle">Historial de solicitudes enviadas a soporte</div>
+      </div>
+      <a href="04-create-ticket.html" class="wf-btn">+ Nuevo ticket</a>
+    </div>
+
+    <!-- Tabla de tickets del cliente -->
+    <div class="wf-table-wrap">
+      <table class="wf-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Categoría</th>
+            <th>Prioridad</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td class="text-mono">#1001</td>
+            <td>Error al iniciar sesión en el portal</td>
+            <td><span class="wf-badge">Técnico</span></td>
+            <td><span class="wf-badge wf-badge-red">Crítica</span></td>
+            <td><span class="wf-badge wf-badge-blue">Abierto</span></td>
+            <td>15/05/2026</td>
+            <td>
+              <a href="07-modal-cliente.html" class="wf-link">Ver seguimiento</a>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="text-mono">#1002</td>
+            <td>Factura incorrecta del mes de abril</td>
+            <td><span class="wf-badge">Facturación</span></td>
+            <td><span class="wf-badge wf-badge-orange">Alta</span></td>
+            <td><span class="wf-badge wf-badge-blue">En proceso</span></td>
+            <td>14/05/2026</td>
+            <td>
+              <a href="07-modal-cliente.html" class="wf-link">Ver seguimiento</a>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="text-mono">#1003</td>
+            <td>Solicitud de acceso a módulo CRM</td>
+            <td><span class="wf-badge">Accesos</span></td>
+            <td><span class="wf-badge wf-badge-yellow">Media</span></td>
+            <td><span class="wf-badge wf-badge-blue">Abierto</span></td>
+            <td>13/05/2026</td>
+            <td>
+              <a href="07-modal-cliente.html" class="wf-link">Ver seguimiento</a>
+            </td>
+          </tr>
+
+          <tr class="row-resolved">
+            <td class="text-mono">#1004</td>
+            <td>Impresora no detectada en red</td>
+            <td><span class="wf-badge">Técnico</span></td>
+            <td><span class="wf-badge">Baja</span></td>
+            <td><span class="wf-badge wf-badge-green">Resuelto</span></td>
+            <td>12/05/2026</td>
+            <td>
+              <a href="07-modal-cliente.html" class="wf-link">Ver seguimiento</a>
+            </td>
+          </tr>
+
+          <tr class="row-closed">
+            <td class="text-mono">#1005</td>
+            <td>Pantalla en negro al abrir informe PDF</td>
+            <td><span class="wf-badge">Técnico</span></td>
+            <td><span class="wf-badge wf-badge-orange">Alta</span></td>
+            <td><span class="wf-badge wf-badge-red">Cerrado</span></td>
+            <td>10/05/2026</td>
+            <td>
+              <a href="07-modal-cliente.html" class="wf-link">Ver seguimiento</a>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+      <div class="wf-table-footer">5 tickets &bull; Solo se muestran los tickets creados por María García (GET /tickets/mine)</div>
+    </div>
+
+    <!-- Leyenda de colores -->
+    <div class="flex gap-12 mt-8" style="font-size:11px; color:#888;">
+      <span>Filas: &nbsp;</span>
+      <span style="background:#f3fef6; border:1px solid #ccc; padding:2px 8px;">Resuelto</span>
+      <span style="background:#fff5f5; border:1px solid #ccc; padding:2px 8px;">Cerrado</span>
+    </div>
+
+    <!-- Estado vacío (condicional) -->
+    <div style="margin-top:28px; background:#fff; border:1px dashed #ccc; padding:32px; text-align:center; color:#aaa;">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" style="margin:0 auto 10px; display:block;">
+        <rect x="6" y="8" width="28" height="24" rx="1" stroke="#ccc" stroke-width="2"/>
+        <path d="M6 14h28" stroke="#ccc" stroke-width="1.5"/>
+        <rect x="10" y="18" width="8" height="2" fill="#ddd"/>
+        <rect x="10" y="22" width="14" height="2" fill="#ddd"/>
+      </svg>
+      <div style="font-size:13px; font-weight:bold; margin-bottom:4px;">No tienes tickets aún</div>
+      <div style="font-size:12px;">Crea tu primer ticket para recibir asistencia.</div>
+      <div style="margin-top:14px;">
+        <a href="04-create-ticket.html" class="wf-btn wf-btn-sm">+ Nuevo ticket</a>
+      </div>
+      <p class="wf-note mt-8">(Estado vacío — se muestra cuando el array de tickets está vacío)</p>
+    </div>
+
+  </div>
+
+</body>
+</html>

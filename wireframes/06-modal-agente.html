@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>WF-06 Modal Agente – TicketFlow</title>
+  <link rel="stylesheet" href="wf.css">
+</head>
+<body>
+
+  <!-- Barra de navegación entre wireframes -->
+  <div class="wf-topbar">
+    <span class="wf-topbar-title">WF:</span>
+    <a href="index.html">Índice</a>
+    <a href="01-login.html">01 Login</a>
+    <a href="02-dashboard.html">02 Dashboard</a>
+    <a href="03-alerts.html">03 Alertas</a>
+    <a href="04-create-ticket.html">04 Crear Ticket</a>
+    <a href="05-my-tickets.html">05 Mis Tickets</a>
+    <a href="06-modal-agente.html" class="current">06 Modal Agente</a>
+    <a href="07-modal-cliente.html">07 Modal Cliente</a>
+  </div>
+
+  <!-- Contexto: Dashboard con modal abierto -->
+  <nav class="wf-nav" style="opacity:0.5;">
+    <div class="wf-nav-brand">
+      <div class="wf-nav-logo"></div>
+      <span class="wf-nav-title">TicketFlow</span>
+    </div>
+    <div class="wf-nav-links">
+      <span class="wf-nav-link active">Dashboard</span>
+      <span class="wf-nav-link">Alertas</span>
+    </div>
+    <div class="wf-nav-right">
+      <div class="wf-nav-info"><strong>Carlos López</strong><span>Agente – Técnico</span></div>
+      <div class="wf-nav-avatar"></div>
+    </div>
+  </nav>
+
+  <!-- Fondo oscurecido del Dashboard -->
+  <div class="wf-modal-bg">
+
+    <p class="wf-note" style="text-align:center; margin-bottom:12px;">
+      Vista: Admin o Agente &bull; Modal con edición completa &bull; Panel de comentarios activo
+    </p>
+
+    <!-- Modal -->
+    <div class="wf-modal">
+
+      <!-- Header -->
+      <div class="wf-modal-header">
+        <div class="wf-modal-id">#1004 &nbsp;&bull;&nbsp; Técnico</div>
+        <div class="wf-modal-title">Impresora no detectada en red local de planta</div>
+        <div class="wf-modal-close">✕</div>
+      </div>
+
+      <!-- Body -->
+      <div class="wf-modal-body">
+
+        <!-- Información básica -->
+        <div class="wf-label-tag">Información del ticket</div>
+
+        <div class="wf-info-row">
+          <span class="wf-info-label">Estado</span>
+          <span class="wf-info-value"><span class="wf-badge wf-badge-green">Resuelto</span></span>
+        </div>
+        <div class="wf-info-row">
+          <span class="wf-info-label">Prioridad</span>
+          <span class="wf-info-value"><span class="wf-badge">Baja</span></span>
+        </div>
+        <div class="wf-info-row">
+          <span class="wf-info-label">Categoría</span>
+          <span class="wf-info-value">Técnico</span>
+        </div>
+        <div class="wf-info-row">
+          <span class="wf-info-label">Creado por</span>
+          <span class="wf-info-value">María García &nbsp;<span class="text-mono">(cliente@empresa.com)</span></span>
+        </div>
+        <div class="wf-info-row">
+          <span class="wf-info-label">Fecha</span>
+          <span class="wf-info-value">12/05/2026 &nbsp;09:45</span>
+        </div>
+        <div class="wf-info-row">
+          <span class="wf-info-label">SLA</span>
+          <span class="wf-info-value">
+            <span style="background:#e8f8f0;border:1px solid #a3d9b8;color:#1a5c35;padding:1px 8px;font-size:11px;">Dentro del tiempo</span>
+          </span>
+        </div>
+        <div class="wf-info-row">
+          <span class="wf-info-label">Descripción</span>
+          <span class="wf-info-value" style="line-height:1.5; color:#555;">
+            La impresora HP LaserJet de la planta baja dejó de aparecer en la lista de dispositivos de red.
+            Los demás equipos tampoco pueden localizarla. Se reinició el router pero no se resolvió.
+          </span>
+        </div>
+        <div class="wf-info-row">
+          <span class="wf-info-label">Notas internas</span>
+          <span class="wf-info-value" style="color:#3730a3; font-size:12px; font-style:italic;">
+            Revisar configuración de IP estática en switch de planta.
+          </span>
+        </div>
+
+        <hr class="wf-section-rule">
+
+        <!-- Panel de edición (solo Admin/Agente) -->
+        <div class="wf-edit-panel">
+          <div class="wf-edit-panel-title">Panel de edición &mdash; Admin / Agente</div>
+
+          <div class="grid-2 mb-12">
+            <div>
+              <label class="wf-label">Cambiar prioridad</label>
+              <select class="wf-select" disabled>
+                <option>Baja (actual)</option>
+                <option>Media</option>
+                <option>Alta</option>
+                <option>Crítica</option>
+              </select>
+            </div>
+            <div>
+              <label class="wf-label">Estado visible</label>
+              <div style="padding:7px 10px; background:#f8f8f8; border:1px solid #ccc; font-size:12px; color:#aaa;">
+                Solo se cambia con Cerrar / Resolver
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-12">
+            <label class="wf-label">Notas internas (visibles solo para equipo)</label>
+            <textarea class="wf-textarea" rows="3" disabled>Revisar configuración de IP estática en switch de planta.</textarea>
+          </div>
+
+          <div class="flex flex-end">
+            <button class="wf-btn wf-btn-sm">Guardar cambios</button>
+          </div>
+        </div>
+
+        <!-- Hilo de comentarios -->
+        <div class="wf-thread">
+          <div class="wf-thread-title">Hilo de comentarios</div>
+
+          <div class="wf-thread-list">
+
+            <div class="wf-reply">
+              <div class="wf-reply-meta">
+                <span class="wf-reply-author">Carlos López (Agente)</span>
+                <span class="wf-reply-time">12/05/2026 11:20</span>
+              </div>
+              <div class="wf-reply-text">
+                El problema fue la configuración de IP estática en el switch de planta baja.
+                Se corrigió la entrada de la tabla ARP y la impresora volvió a ser visible en red.
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Input de respuesta -->
+          <div class="wf-chat-input-row">
+            <input type="text" class="wf-chat-input" placeholder="Escribe una respuesta al cliente…" disabled>
+            <button class="wf-btn wf-btn-sm">Enviar</button>
+          </div>
+          <p class="wf-note mt-4">Las respuestas son visibles para el cliente en "Ver seguimiento"</p>
+        </div>
+
+      </div>
+
+      <!-- Footer con acciones -->
+      <div class="wf-modal-footer">
+        <button class="wf-btn wf-btn-sm wf-btn-outline">Cerrar panel</button>
+        <button class="wf-btn wf-btn-sm wf-btn-green">Marcar resuelto</button>
+        <button class="wf-btn wf-btn-sm wf-btn-danger">Cerrar ticket</button>
+      </div>
+
+    </div>
+
+    <!-- Diagrama de estados -->
+    <div style="max-width:520px; margin:16px auto 0; background:#fff; border:1px solid #ddd; padding:14px 18px;">
+      <div class="wf-label-tag" style="margin-bottom:8px;">Estados del ticket</div>
+      <div class="flex items-center gap-8 flex-wrap" style="font-size:11px;">
+        <span class="wf-badge wf-badge-blue">Abierto</span>
+        <span style="color:#ccc;">&rarr;</span>
+        <span class="wf-badge wf-badge-blue">En proceso</span>
+        <span style="color:#ccc;">&rarr;</span>
+        <span class="wf-badge wf-badge-green">Resuelto</span>
+        <span style="color:#ccc;">&nbsp;|&nbsp;</span>
+        <span class="wf-badge wf-badge-red">Cerrado</span>
+      </div>
+      <p class="wf-note mt-4">Marcar resuelto → PATCH /tickets/:id/resolve &nbsp;|&nbsp; Cerrar → PATCH /tickets/:id/close</p>
+    </div>
+
+  </div>
+
+</body>
+</html>

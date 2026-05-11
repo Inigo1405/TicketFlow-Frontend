@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>WF-04 Crear Ticket – TicketFlow</title>
+  <link rel="stylesheet" href="wf.css">
+</head>
+<body>
+
+  <!-- Barra de navegación entre wireframes -->
+  <div class="wf-topbar">
+    <span class="wf-topbar-title">WF:</span>
+    <a href="index.html">Índice</a>
+    <a href="01-login.html">01 Login</a>
+    <a href="02-dashboard.html">02 Dashboard</a>
+    <a href="03-alerts.html">03 Alertas</a>
+    <a href="04-create-ticket.html" class="current">04 Crear Ticket</a>
+    <a href="05-my-tickets.html">05 Mis Tickets</a>
+    <a href="06-modal-agente.html">06 Modal Agente</a>
+    <a href="07-modal-cliente.html">07 Modal Cliente</a>
+  </div>
+
+  <!-- Navbar – se adapta al rol. Aquí mostramos la versión Cliente -->
+  <nav class="wf-nav">
+    <div class="wf-nav-brand">
+      <div class="wf-nav-logo">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <rect x="2" y="4" width="16" height="12" rx="1" stroke="white" stroke-width="1.5"/>
+          <path d="M2 8h16" stroke="white" stroke-width="1"/>
+        </svg>
+      </div>
+      <span class="wf-nav-title">TicketFlow</span>
+    </div>
+    <div class="wf-nav-links">
+      <!-- Links cambian según rol: Cliente ve Mis Tickets / Nuevo Ticket
+           Admin/Agente ven Dashboard / Alertas -->
+      <span class="wf-nav-link">Mis Tickets</span>
+      <span class="wf-nav-link active">Nuevo Ticket</span>
+    </div>
+    <div class="wf-nav-right">
+      <div class="wf-nav-info"><strong>María García</strong><span>Cliente</span></div>
+      <div class="wf-nav-avatar"></div>
+      <button class="wf-nav-btn">Salir</button>
+    </div>
+  </nav>
+
+  <!-- Contenido principal -->
+  <div class="container">
+
+    <!-- Botón volver -->
+    <div class="mb-16">
+      <a href="05-my-tickets.html" class="wf-btn wf-btn-outline wf-btn-sm">&larr; Volver</a>
+    </div>
+
+    <!-- Formulario centrado -->
+    <div style="max-width:640px; margin:0 auto;">
+
+      <!-- Encabezado -->
+      <div class="mb-24">
+        <div class="page-title">Nuevo Ticket</div>
+        <div class="page-subtitle">Describe el problema para que el equipo de soporte pueda atenderte.</div>
+      </div>
+
+      <!-- Tarjeta de formulario -->
+      <div class="wf-card" style="padding:28px 28px;">
+
+        <!-- Título -->
+        <div class="wf-field">
+          <label class="wf-label wf-label-req">Título del ticket</label>
+          <input type="text" class="wf-input" placeholder="Ej. Error al iniciar sesión en el portal" disabled>
+          <p class="wf-note mt-4">Breve descripción del problema (requerido)</p>
+        </div>
+
+        <!-- Descripción -->
+        <div class="wf-field">
+          <label class="wf-label wf-label-req">Descripción detallada</label>
+          <textarea class="wf-textarea" rows="5" placeholder="Explica con detalle el problema: qué pasó, cuándo ocurrió, qué intentaste hacer..." disabled></textarea>
+          <p class="wf-note mt-4">Mientras más detalle, más rápido podremos ayudarte (requerido)</p>
+        </div>
+
+        <!-- Categoría -->
+        <div class="wf-field">
+          <label class="wf-label wf-label-req">Categoría</label>
+          <select class="wf-select" disabled>
+            <option value="">Selecciona una categoría…</option>
+            <option>Técnico</option>
+            <option>Facturación</option>
+            <option>Accesos</option>
+            <option>General</option>
+          </select>
+          <p class="wf-note mt-4">Elige la categoría que mejor describe tu problema</p>
+        </div>
+
+        <!-- Estado inicial -->
+        <div class="wf-field">
+          <label class="wf-label wf-label-req">Estado inicial</label>
+
+          <div class="wf-radio-option selected">
+            <div class="wf-radio-dot checked"></div>
+            <div>
+              <strong style="font-size:13px;">Abierto</strong>
+              <span class="wf-note" style="display:block;">El ticket está activo y esperando atención</span>
+            </div>
+          </div>
+
+          <div class="wf-radio-option">
+            <div class="wf-radio-dot"></div>
+            <div>
+              <strong style="font-size:13px;">En proceso</strong>
+              <span class="wf-note" style="display:block;">Ya tienes información o alguien está trabajando en ello</span>
+            </div>
+          </div>
+
+        </div>
+
+        <hr class="wf-section-rule">
+
+        <!-- Nota sobre prioridad -->
+        <div style="background:#f8f8f8; border:1px solid #ddd; border-left:3px solid #888; padding:10px 14px; margin-bottom:20px;">
+          <p style="font-size:12px; color:#666; margin:0;">
+            <strong>Prioridad:</strong> El sistema asigna la prioridad automáticamente en función de la categoría y el historial.
+            No es necesario seleccionarla al crear el ticket.
+          </p>
+        </div>
+
+        <!-- Botones -->
+        <div class="flex flex-end gap-8">
+          <a href="05-my-tickets.html" class="wf-btn wf-btn-outline">Cancelar</a>
+          <button class="wf-btn" disabled>Crear Ticket</button>
+        </div>
+
+      </div>
+
+      <!-- Nota de acceso -->
+      <p class="wf-note" style="text-align:center; margin-top:12px;">
+        Ruta protegida: accesible para todos los roles autenticados &bull; POST /tickets
+      </p>
+
+    </div>
+  </div>
+
+</body>
+</html>
