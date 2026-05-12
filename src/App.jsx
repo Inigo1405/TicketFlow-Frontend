@@ -1,122 +1,80 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useAuth } from './contexts/AuthContext.jsx'
+import MainLayout from './layouts/MainLayout.jsx'
+import Login from './pages/Login.jsx'
+import Dashboard from './pages/Dashboard.jsx'
+import CreateTicket from './pages/CreateTicket.jsx'
+import Alerts from './pages/Alerts.jsx'
+import MyTickets from './pages/MyTickets.jsx'
 import './App.css'
 
+// Redirect authenticated users to their home based on role
+function RoleHome() {
+  const { user } = useAuth()
+  if (user?.role === 'Cliente') return <Navigate to="/my-tickets" replace />
+  return <Navigate to="/dashboard" replace />
+}
+
+// Guard: requires authentication; optionally restricts by role
+function Protected({ roles, children }) {
+  const { isAuthenticated, user } = useAuth()
+  if (!isAuthenticated) return <Navigate to="/login" replace />
+  if (roles && !roles.includes(user?.role)) return <RoleHome />
+  return (
+    <MainLayout>
+      {children}
+    </MainLayout>
+  )
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const { isAuthenticated, isLoading } = useAuth()
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-zinc-950">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400 mx-auto mb-4"></div>
+          <p className="text-zinc-500">Cargando TicketFlow...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <BrowserRouter>
+      <Routes>
+        {/* Login — redirige al inicio de rol si ya autenticado */}
+        <Route
+          path="/login"
+          element={isAuthenticated ? <RoleHome /> : <Login />}
+        />
 
-      <div className="ticks"></div>
+        {/* Admin + Agente */}
+        <Route path="/dashboard"
+          element={<Protected roles={['Admin', 'Agente']}><Dashboard /></Protected>}
+        />
+        <Route path="/alerts"
+          element={<Protected roles={['Admin', 'Agente']}><Alerts /></Protected>}
+        />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        {/* Todos los roles autenticados */}
+        <Route path="/create-ticket"
+          element={<Protected><CreateTicket /></Protected>}
+        />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+        {/* Solo Cliente */}
+        <Route path="/my-tickets"
+          element={<Protected roles={['Cliente']}><MyTickets /></Protected>}
+        />
+
+        {/* Raíz → inicio de rol */}
+        <Route path="/" element={isAuthenticated ? <RoleHome /> : <Navigate to="/login" replace />} />
+        <Route path="*" element={isAuthenticated ? <RoleHome /> : <Navigate to="/login" replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
 export default App
+
