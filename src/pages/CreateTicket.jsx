@@ -17,12 +17,6 @@ const CATEGORY_OPTIONS = [
   { value: 'other', label: 'Otro', color: 'slate' },
 ]
 
-// Opciones de estado inicial
-const STATUS_OPTIONS = [
-  { value: 'open', label: 'Abierto' },
-  { value: 'pending', label: 'Pendiente' },
-]
-
 function CreateTicket() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -205,36 +199,6 @@ function CreateTicket() {
                 </option>
               ))}
             </select>
-          </div>
-
-          {/* Estado */}
-          <div>
-            <label htmlFor="status" className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider mb-2">
-              Estado
-            </label>
-            <div className="space-y-2">
-              {STATUS_OPTIONS.map((option) => (
-                <label
-                  key={option.value}
-                  className={`
-                    flex items-center px-3 py-2.5 border cursor-pointer transition-colors
-                    ${formData.status === option.value
-                      ? 'border-cyan-500 dark:border-cyan-600 bg-cyan-50 dark:bg-cyan-950/40'
-                      : 'border-zinc-300 dark:border-zinc-700 hover:border-zinc-400 dark:hover:border-zinc-600 bg-white dark:bg-zinc-950/30'}
-                  `}
-                >
-                  <input
-                    type="radio"
-                    name="status"
-                    value={option.value}
-                    checked={formData.status === option.value}
-                    onChange={() => handleInputChange('status', option.value)}
-                    className="mr-3 w-4 h-4 accent-cyan-400 focus:ring-cyan-500"
-                  />
-                  <span className="text-sm text-zinc-700 dark:text-zinc-300">{option.label}</span>
-                </label>
-              ))}
-            </div>
           </div>
 
           {/* Botones de acción */}

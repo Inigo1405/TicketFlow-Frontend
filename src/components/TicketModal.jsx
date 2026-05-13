@@ -67,6 +67,7 @@ export function TicketDetailModal({
   const canClose = ticket.status !== 'closed'
   const canResolve = ticket.status !== 'resolved' && ticket.status !== 'closed'
   const isAgent = currentUser?.role === 'Admin' || currentUser?.role === 'Agente'
+  const isAdmin = currentUser?.role === 'Admin'
 
   const handleSendReply = () => {
     const trimmed = replyText.trim()
@@ -77,7 +78,9 @@ export function TicketDetailModal({
 
   const handleSaveEdit = () => {
     if (!editDirty || isEditing) return
-    onEditTicket({ priority: editPriority, notes: editNotes })
+    const payload = { notes: editNotes }
+    if (isAdmin) payload.priority = editPriority
+    onEditTicket(payload)
     setEditDirty(false)
   }
 
@@ -120,7 +123,7 @@ export function TicketDetailModal({
           {row('Categoría', CATEGORY_LABELS[ticket.category] || ticket.category || '—')}
           {row('Fecha',     new Date(ticket.created_at).toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' }))}
           {ticket.description && row('Descripción', ticket.description)}
-          {ticket.notes && row('Notas internas', <span className="italic text-zinc-400">{ticket.notes}</span>)}
+          {isAgent && ticket.notes && row('Notas internas', <span className="italic text-zinc-400">{ticket.notes}</span>)}
           {ticket.sla_breached && row(
             'SLA',
             <span className="inline-flex items-center gap-1 text-red-400 font-medium text-sm">
@@ -135,19 +138,21 @@ export function TicketDetailModal({
           {isAgent && (
             <div className="mt-4 mb-2 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800/40 p-4 space-y-3">
               <p className="text-xs font-semibold text-cyan-600 dark:text-cyan-400 uppercase tracking-wide">Editar ticket</p>
-              <div>
-                <label className="block text-xs font-medium text-zinc-500 mb-1">Prioridad</label>
-                <select
-                  value={editPriority}
-                  onChange={(e) => { setEditPriority(e.target.value); setEditDirty(true) }}
-                  className="w-full px-3 py-2 text-sm border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                >
-                  <option value="low">Baja</option>
-                  <option value="medium">Media</option>
-                  <option value="high">Alta</option>
-                  <option value="critical">Crítica</option>
-                </select>
-              </div>
+              {isAdmin && (
+                <div>
+                  <label className="block text-xs font-medium text-zinc-500 mb-1">Prioridad</label>
+                  <select
+                    value={editPriority}
+                    onChange={(e) => { setEditPriority(e.target.value); setEditDirty(true) }}
+                    className="w-full px-3 py-2 text-sm border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  >
+                    <option value="low">Baja</option>
+                    <option value="medium">Media</option>
+                    <option value="high">Alta</option>
+                    <option value="critical">Crítica</option>
+                  </select>
+                </div>
+              )}
               <div>
                 <label className="block text-xs font-medium text-zinc-500 mb-1">Notas internas</label>
                 <textarea

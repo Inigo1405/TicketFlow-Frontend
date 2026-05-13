@@ -29,6 +29,5 @@ dist-ssr
 .env.test
 .env.local
 
-services/
 mocks/
 scripts/

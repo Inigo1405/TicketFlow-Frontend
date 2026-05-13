@@ -82,7 +82,7 @@ function Login() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-zinc-400 dark:text-zinc-700">© 2024 TicketFlow</p>
+        <p className="text-xs text-zinc-400 dark:text-zinc-700">© 2026 TicketFlow</p>
       </div>
 
       {/* Right — form */}
