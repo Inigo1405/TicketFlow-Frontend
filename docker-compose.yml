@@ -1,0 +1,207 @@
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: ticketflow-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES-USER: ${POSTGRES_USER:=ticketflow}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ticketfow1234}
+      POSTGRES_DB: ${POSTGRES_DB:-ticketflow_db}
+    ports:
+    - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ticketflow}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ticketflow-net
+  
+  redis:
+    image: redis:7-alpine
+    container_name: ticketflow-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    ports:
+      -"6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD","redis-cli" ,"ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ticketflow-net
+  
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpha 
+    container_name: ticketflow-rabbitmq
+    restart: unless-stopped
+    environment:
+      - RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-ticketflow}
+      - RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-rabbit1234}
+    ports:
+      - "5672:5672"
+      - "15672:15672" 
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD","rabbitmq-diagnostics", "ping"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - ticketflow-net
+    
+
+  api-gateway:
+    build: 
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    container_name: ticketflow-api-gateway
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      NODE_ENV: ${NODE_ENV:-devopment}
+      JWT_SECRET: ${JWT_SECRET:-supersecretkey}
+      AUTH_SERVICE_URL: http://auth-service:3001
+      TICKET_sERVICE_URL: http://ticket-service:3002
+      NOTIFICATION_SERVICE_URL: http://notification-service:3003
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+      auth-service:
+        condition: service_started
+      ticket-service:
+        condition: service_started
+      notifaction-service:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    networks:
+      - ticketflow-net
+    
+  auth-service:
+    build: 
+      context: ./services/auth-services 
+      dockerfile: Dockerfile
+    container_name: ticketflow-auth-service
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      NODE_ENV: ${NODE_ENV:-development}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-ticketflow}:${POSTGRES_PASSWORD:-ticketflow1234}@postgres:5432/${POSTGRES_DB:-ticketflow_db}
+      JWT_SECRET: ${JWT_SECRET:-supersecretkey}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3001/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    networks:
+      - ticketflow-net
+
+  ticket_service:
+    build: 
+      context: ./services/ticket-service
+      dockerfile: Dockerfile
+    container_name: ticketflow-ticket-service
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    environment:
+      PORT: 3002
+      NODE_ENV: ${NODE_ENV:-development}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-ticketflow}:${POSTGRES_PASSWORD:-ticketflow1234}@postgres:5432/${POSTGRES_DB:-ticketflow_db}
+      JWT_SECRET: ${JWT_SECRET:-supersecretkey}
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://${RABBITMQ_USER:-ticketflow}:${RABBITMQ_PASSWORD:-rabbit1234}@rabbitmq:5672
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3002/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    networks:
+    - ticketflow-net  
+
+  notification-service:
+    build:
+      context: ./services/notification-service
+      dockerfile: Dockerfile
+    container_name: ticketflow-notification-service
+    restart: unless-stopped
+    ports:
+      - "3003:3003"
+    environment:
+      PORT: 3003
+      NODE_ENV: ${NODE_ENV:-development}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-ticketflow}:${POSTGRES_PASSWORD:-ticketflow1234}@postgres:5432/${POSTGRES_DB:-ticketflow_db}
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://${RABBITMQ_USER:-ticketflow}:${RABBITMQ_PASSWORD:-rabbit1234}@rabbitmq:5672
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3003/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    networks:
+      - ticketflow-net
+
+  frontend:
+    build:
+      context: 
+      dockerfile: Dockerfile
+    container_name: ticketflow-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    environment:
+      VITE_API_BASE_URL: http://localhost:3000/api
+      VITE_MOCK_MODE: false
+    depends_on:
+      - api-gateway
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    networks:
+      - ticketflow-net
+
+volumes:
+  postgres_data:
+  redis_data:
+  rabbitmq_data:
+
+networks:
+  ticketflow-net:
+    driver: bridge
