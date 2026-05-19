@@ -21,6 +21,7 @@ function Navbar() {
     : [
         { to: '/dashboard', label: 'Dashboard' },
         { to: '/alerts',    label: 'Alertas' },
+        ...(user?.role === 'Admin' ? [{ to: '/agent-admin', label: 'TICBot Admin' }] : []),
       ]
 
   return (

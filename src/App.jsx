@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard.jsx'
 import CreateTicket from './pages/CreateTicket.jsx'
 import Alerts from './pages/Alerts.jsx'
 import MyTickets from './pages/MyTickets.jsx'
+import AgentAdmin from './pages/AgentAdmin.jsx'
 import './App.css'
 
 // Redirect authenticated users to their home based on role
@@ -61,6 +62,11 @@ function App() {
         {/* Todos los roles autenticados */}
         <Route path="/create-ticket"
           element={<Protected><CreateTicket /></Protected>}
+        />
+
+        {/* Solo Admin */}
+        <Route path="/agent-admin"
+          element={<Protected roles={['Admin']}><AgentAdmin /></Protected>}
         />
 
         {/* Solo Cliente */}
