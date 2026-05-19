@@ -4,18 +4,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import api from '../services/api.js'
 import Button from '../components/Button.jsx'
 import Input from '../components/Input.jsx'
-import Badge from '../components/Badge.jsx'
 import LoadingSpinner from '../components/LoadingSpinner.jsx'
 import Toast from '../components/Toast.jsx'
-
-// Opciones de categoría
-const CATEGORY_OPTIONS = [
-  { value: 'general', label: 'General', color: 'blue' },
-  { value: 'technical', label: 'Técnico', color: 'indigo' },
-  { value: 'billing', label: 'Facturación', color: 'emerald' },
-  { value: 'access', label: 'Acceso', color: 'purple' },
-  { value: 'other', label: 'Otro', color: 'slate' },
-]
 
 function CreateTicket() {
   const navigate = useNavigate()
@@ -24,7 +14,6 @@ function CreateTicket() {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    category: 'general',
     status: 'open',
   })
   
@@ -57,16 +46,15 @@ function CreateTicket() {
       const response = await api.post('/tickets', ticketData)
       return response.data
     },
-    onSuccess: () => {
+    onSuccess: (ticket) => {
       // Refetch para actualizar la lista en dashboard
       queryClient.invalidateQueries({ queryKey: ['tickets'] })
       // Mostrar toast de éxito
-      setToast({ type: 'success', message: 'Ticket creado exitosamente' })
+      setToast({ type: 'success', message: 'Ticket creado. El agente lo está analizando...' })
       // Resetear formulario
       setFormData({
         title: '',
         description: '',
-        category: 'general',
         status: 'open',
       })
       // Redirigir después de mostrar el toast
@@ -179,26 +167,6 @@ function CreateTicket() {
                 {errors.description}
               </p>
             )}
-          </div>
-
-          {/* Categoría */}
-          <div>
-            <label htmlFor="category" className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider mb-2">
-              Categoría
-            </label>
-            <select
-              id="category"
-              value={formData.category}
-              onChange={(e) => handleInputChange('category', e.target.value)}
-              className="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-950 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 disabled:bg-zinc-100 dark:disabled:bg-zinc-900 disabled:text-zinc-400 dark:disabled:text-zinc-600 text-sm"
-              disabled={createTicketMutation.isPending}
-            >
-              {CATEGORY_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
           </div>
 
           {/* Botones de acción */}

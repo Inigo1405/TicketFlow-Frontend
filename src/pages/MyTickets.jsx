@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import api from '../services/api.js'
 import { useAuth } from '../contexts/AuthContext.jsx'
@@ -32,7 +32,17 @@ const CATEGORY_LABELS = {
 
 function MyTickets() {
   const { user } = useAuth()
-  const [detailTicket, setDetailTicket] = useState(null)
+  const queryClient = useQueryClient()
+  const [detailTicketId, setDetailTicketId] = useState(null)
+  const { data: detailTicket } = useQuery({
+    queryKey: ['ticket', detailTicketId],
+    queryFn: async () => {
+      const response = await api.get(`/tickets/${detailTicketId}`)
+      return response.data
+    },
+    enabled: !!detailTicketId,
+    refetchInterval: detailTicketId ? 8000 : false,
+  })
 
   const { data: tickets, isLoading, error, refetch } = useQuery({
     queryKey: ['my-tickets'],
@@ -40,14 +50,27 @@ function MyTickets() {
       const response = await api.get('/tickets/mine')
       return response.data || []
     },
-    refetchInterval: 30000,
+    refetchInterval: 15000,
+  })
+
+  const addReplyMutation = useMutation({
+    mutationFn: async ({ ticketId, text }) => {
+      const response = await api.post(`/tickets/${ticketId}/replies`, { text })
+      return { ticketId, reply: response.data }
+    },
+    onSuccess: ({ ticketId }) => {
+      queryClient.invalidateQueries({ queryKey: ['ticket', detailTicketId] })
+      queryClient.invalidateQueries({ queryKey: ['my-tickets'] })
+    },
   })
 
   return (
     <div className="space-y-6">
       <TicketDetailModal
         ticket={detailTicket}
-        onClose={() => setDetailTicket(null)}
+        onClose={() => setDetailTicketId(null)}
+        onAddReply={(text) => addReplyMutation.mutate({ ticketId: detailTicketId, text })}
+        isAddingReply={addReplyMutation.isPending}
         currentUser={user}
       />
       {/* Header */}
@@ -139,7 +162,7 @@ function MyTickets() {
                     </td>
                     <td className="px-4 py-3">
                       <button
-                        onClick={() => setDetailTicket(ticket)}
+                        onClick={() => setDetailTicketId(ticket.id)}
                         className="text-xs font-semibold text-cyan-600 dark:text-cyan-400 hover:text-cyan-800 dark:hover:text-cyan-300 transition-colors"
                       >
                         Ver seguimiento

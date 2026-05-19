@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
+import ReactMarkdown from 'react-markdown'
 import Badge from './Badge.jsx'
 import Button from './Button.jsx'
 import LoadingSpinner from './LoadingSpinner.jsx'
@@ -17,12 +18,16 @@ const PRIORITY_LEVELS = {
   critical: { label: 'Crítica' },
 }
 
-const CATEGORY_LABELS = {
-  general:   'General',
-  technical: 'Técnico',
-  billing:   'Facturación',
-  access:    'Acceso',
-  other:     'Otro',
+const TIC_AREA_LABELS = {
+  backend_services:       'Backend / Servicios',
+  frontend_services:      'Frontend / Web',
+  general_tech_support:   'Soporte Técnico General',
+  network_infrastructure: 'Redes e Infraestructura',
+  cybersecurity:          'Ciberseguridad',
+  data_databases:         'Datos / Bases de datos',
+  cloud_services:         'Servicios en la Nube',
+  systems_hardware:       'Sistemas / Hardware',
+  uncategorized:          'Sin clasificar',
 }
 
 // ---------------------------------------------------------------------------
@@ -40,6 +45,7 @@ export function TicketDetailModal({
   const [editNotes, setEditNotes] = useState('')
   const [editDirty, setEditDirty] = useState(false)
   const repliesEndRef = useRef(null)
+  const lastRepliesLengthRef = useRef(null)
 
   // Sync edit fields when ticket changes
   useEffect(() => {
@@ -57,9 +63,18 @@ export function TicketDetailModal({
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
-  // Scroll replies to bottom when new reply added
+  // Scroll to bottom only when NEW replies arrive after initial load.
+  // On first open we stay at the top so internal notes (oldest) are visible.
   useEffect(() => {
-    repliesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    const len = ticket?.replies?.length
+    if (len == null) {
+      lastRepliesLengthRef.current = null
+      return
+    }
+    if (lastRepliesLengthRef.current !== null && len > lastRepliesLengthRef.current) {
+      repliesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+    lastRepliesLengthRef.current = len
   }, [ticket?.replies?.length])
 
   if (!ticket) return null
@@ -68,6 +83,7 @@ export function TicketDetailModal({
   const canResolve = ticket.status !== 'resolved' && ticket.status !== 'closed'
   const isAgent = currentUser?.role === 'Admin' || currentUser?.role === 'Agente'
   const isAdmin = currentUser?.role === 'Admin'
+  const isCreator = ticket.created_by === currentUser?.id
 
   const handleSendReply = () => {
     const trimmed = replyText.trim()
@@ -120,7 +136,7 @@ export function TicketDetailModal({
           {/* Info rows */}
           {row('Estado',    <Badge type={ticket.status}>{TICKET_TYPES[ticket.status]?.label || ticket.status}</Badge>)}
           {row('Prioridad', <Badge type={ticket.priority}>{PRIORITY_LEVELS[ticket.priority]?.label || ticket.priority}</Badge>)}
-          {row('Categoría', CATEGORY_LABELS[ticket.category] || ticket.category || '—')}
+          {row('Área TIC',   TIC_AREA_LABELS[ticket.tic_area] || ticket.tic_area || '—')}
           {row('Fecha',     new Date(ticket.created_at).toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' }))}
           {ticket.description && row('Descripción', ticket.description)}
           {isAgent && ticket.notes && row('Notas internas', <span className="italic text-zinc-400">{ticket.notes}</span>)}
@@ -178,27 +194,62 @@ export function TicketDetailModal({
             </div>
           )}
 
-          {/* Comment thread — Admin/Agente only */}
-          {isAgent && (
+          {/* Comment thread — Admin/Agente/Creador */}
+          {(isAgent || isCreator) && (
             <div className="mt-4 mb-2">
-              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-3">Seguimiento</p>
+              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-3">
+                {isAgent ? 'Seguimiento' : 'Respuestas del equipo'}
+              </p>
 
               {/* Replies list */}
               <div className="bg-zinc-100 dark:bg-zinc-950/60 p-3 space-y-3 max-h-52 overflow-y-auto">
                 {(!ticket.replies || ticket.replies.length === 0) ? (
                   <p className="text-xs text-zinc-400 dark:text-zinc-600 text-center py-2">Sin mensajes aún.</p>
                 ) : (
-                  ticket.replies.map((reply) => (
-                    <div key={reply.id} className="bg-white border border-zinc-200 dark:bg-zinc-800 dark:border-zinc-700 px-3 py-2">
-                      <div className="flex items-baseline justify-between gap-2 mb-1">
-                        <span className="text-xs font-semibold text-cyan-600 dark:text-cyan-400">{reply.author_name}</span>
-                        <span className="text-xs text-zinc-400 dark:text-zinc-600 shrink-0">
-                          {new Date(reply.created_at).toLocaleString('es-MX', { dateStyle: 'short', timeStyle: 'short' })}
-                        </span>
+                  ticket.replies
+                    .filter((reply) => isAgent || !reply.is_internal)
+                    .map((reply) => (
+                      <div
+                        key={reply.id}
+                        className={
+                          reply.is_internal
+                            ? 'border border-amber-300 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-700 px-3 py-2'
+                            : 'bg-white border border-zinc-200 dark:bg-zinc-800 dark:border-zinc-700 px-3 py-2'
+                        }
+                      >
+                        <div className="flex items-baseline justify-between gap-2 mb-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-semibold text-cyan-600 dark:text-cyan-400">{reply.author_name}</span>
+                            {reply.is_internal && (
+                              <span className="text-[10px] font-bold uppercase tracking-wide text-amber-600 dark:text-amber-400 border border-amber-400 dark:border-amber-600 px-1">interna</span>
+                            )}
+                          </div>
+                          <span className="text-xs text-zinc-400 dark:text-zinc-600 shrink-0">
+                            {new Date(reply.created_at).toLocaleString('es-MX', { dateStyle: 'short', timeStyle: 'short' })}
+                          </span>
+                        </div>
+                        <div className="text-sm text-zinc-700 dark:text-zinc-300 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+                          <ReactMarkdown
+                            components={{
+                              p:      ({ children }) => <p className="my-1 leading-relaxed">{children}</p>,
+                              strong: ({ children }) => <strong className="font-semibold text-zinc-900 dark:text-zinc-100">{children}</strong>,
+                              em:     ({ children }) => <em className="italic">{children}</em>,
+                              ul:     ({ children }) => <ul className="my-1 ml-4 list-disc space-y-0.5">{children}</ul>,
+                              ol:     ({ children }) => <ol className="my-1 ml-4 list-decimal space-y-0.5">{children}</ol>,
+                              li:     ({ children }) => <li className="leading-relaxed">{children}</li>,
+                              h1:     ({ children }) => <h1 className="mt-2 mb-1 text-base font-bold text-zinc-900 dark:text-zinc-100">{children}</h1>,
+                              h2:     ({ children }) => <h2 className="mt-2 mb-1 text-sm font-bold text-zinc-900 dark:text-zinc-100">{children}</h2>,
+                              h3:     ({ children }) => <h3 className="mt-1 mb-0.5 text-sm font-semibold text-zinc-800 dark:text-zinc-200">{children}</h3>,
+                              code:   ({ children }) => <code className="px-1 py-0.5 text-xs bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 font-mono rounded">{children}</code>,
+                              pre:    ({ children }) => <pre className="my-1 p-2 text-xs bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 overflow-x-auto font-mono">{children}</pre>,
+                              hr:     () => <hr className="my-2 border-zinc-200 dark:border-zinc-700" />,
+                            }}
+                          >
+                            {reply.text}
+                          </ReactMarkdown>
+                        </div>
                       </div>
-                      <p className="text-sm text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap">{reply.text}</p>
-                    </div>
-                  ))
+                    ))
                 )}
                 <div ref={repliesEndRef} />
               </div>
@@ -225,33 +276,7 @@ export function TicketDetailModal({
             </div>
           )}
 
-          {/* Replies — read-only for Cliente */}
-          {!isAgent && ticket.replies?.length > 0 && (
-            <div className="mt-4 mb-2">
-              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-3">Respuestas del equipo</p>
-              <div className="bg-zinc-100 dark:bg-zinc-950/60 p-3 space-y-3 max-h-52 overflow-y-auto">
-                {ticket.replies.map((reply) => (
-                  <div key={reply.id} className="bg-white border border-zinc-200 dark:bg-zinc-800 dark:border-zinc-700 px-3 py-2">
-                    <div className="flex items-baseline justify-between gap-2 mb-1">
-                      <span className="text-xs font-semibold text-cyan-600 dark:text-cyan-400">{reply.author_name}</span>
-                      <span className="text-xs text-zinc-400 dark:text-zinc-600 shrink-0">
-                        {new Date(reply.created_at).toLocaleString('es-MX', { dateStyle: 'short', timeStyle: 'short' })}
-                      </span>
-                    </div>
-                    <p className="text-sm text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap">{reply.text}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-          {!isAgent && (!ticket.replies || ticket.replies.length === 0) && (
-            <div className="mt-4 mb-2">
-              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-2">Respuestas del equipo</p>
-              <p className="text-xs text-zinc-400 dark:text-zinc-600 bg-zinc-100 dark:bg-zinc-950/60 px-3 py-4 text-center">
-                Aún no hay respuestas para este ticket.
-              </p>
-            </div>
-          )}
+
         </div>
 
         {/* Footer */}

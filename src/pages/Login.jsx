@@ -7,8 +7,8 @@ import LoadingSpinner from '../components/LoadingSpinner.jsx'
 import Toast from '../components/Toast.jsx'
 
 function Login() {
-  const [email, setEmail] = useState(import.meta.env.VITE_DEV_EMAIL || '')
-  const [password, setPassword] = useState(import.meta.env.VITE_DEV_PASSWORD || '')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [toast, setToast] = useState(null)
   
@@ -160,29 +160,7 @@ function Login() {
             </Button>
           </form>
 
-          {/* Quick-login dev switcher */}
-          {import.meta.env.VITE_MOCK_MODE === 'true' && (
-            <div className="mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-800">
-              <p className="text-xs text-zinc-400 dark:text-zinc-600 mb-3">Acceso rápido — modo demo</p>
-              <div className="grid grid-cols-3 gap-2">
-                {[
-                  { email: import.meta.env.VITE_DEV_EMAIL,  pass: import.meta.env.VITE_DEV_PASSWORD,  name: 'Demo User',  role: 'Admin'  },
-                  { email: import.meta.env.VITE_DEV_EMAIL2, pass: import.meta.env.VITE_DEV_PASSWORD2, name: 'Carlos L.',  role: 'Agente' },
-                  { email: import.meta.env.VITE_DEV_EMAIL3, pass: import.meta.env.VITE_DEV_PASSWORD3, name: 'María G.',   role: 'Cliente'},
-                ].map(({ email: e, pass: p, name, role }) => (
-                  <button
-                    key={role}
-                    type="button"
-                    onClick={() => { setEmail(e); setPassword(p); if (toast) setToast(null) }}
-                    className="flex flex-col items-start px-3 py-2.5 border border-zinc-300 dark:border-zinc-800 hover:border-cyan-500 dark:hover:border-cyan-800 hover:bg-cyan-50 dark:hover:bg-cyan-950/30 transition-colors text-left"
-                  >
-                    <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{name}</span>
-                    <span className="text-xs text-zinc-400 dark:text-zinc-600 mt-0.5">{role}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
+
         </div>
       </div>
     </div>

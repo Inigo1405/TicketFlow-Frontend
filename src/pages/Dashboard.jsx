@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import api from '../services/api.js'
@@ -31,10 +31,28 @@ function Dashboard() {
   // id of the ticket currently fading out (closing animation)
   const [closingId, setClosingId] = useState(null)
   // modal state
-  const [detailTicket, setDetailTicket] = useState(null)   // ticket to show in detail modal
+  const [detailTicketId, setDetailTicketId] = useState(null)
+  const { data: detailTicket } = useQuery({
+    queryKey: ['ticket', detailTicketId],
+    queryFn: async () => {
+      const response = await api.get(`/tickets/${detailTicketId}`)
+      return response.data
+    },
+    enabled: !!detailTicketId,
+    refetchInterval: detailTicketId ? 8000 : false,
+  })
   const [confirmTicket, setConfirmTicket] = useState(null) // ticket pending confirmation to close
 
   const queryClient = useQueryClient()
+
+  // Refresh the list whenever the detail modal closes (catches background TICBot changes)
+  const prevDetailIdRef = useRef(null)
+  useEffect(() => {
+    if (prevDetailIdRef.current !== null && detailTicketId === null) {
+      queryClient.invalidateQueries({ queryKey: ['tickets'] })
+    }
+    prevDetailIdRef.current = detailTicketId
+  }, [detailTicketId, queryClient])
 
   const { data: tickets, isLoading, error, refetch } = useQuery({
     queryKey: ['tickets'],
@@ -42,7 +60,7 @@ function Dashboard() {
       const response = await api.get('/tickets')
       return response.data || []
     },
-    refetchInterval: 30000,
+    refetchInterval: 15000,
   })
 
   const closeTicketMutation = useMutation({
@@ -59,7 +77,7 @@ function Dashboard() {
         queryClient.invalidateQueries({ queryKey: ['tickets'] })
         setClosingId(null)
         setConfirmTicket(null)
-        setDetailTicket(null)
+        setDetailTicketId(null)
         setToast({ type: 'success', message: 'Ticket cerrado correctamente' })
       }, 450)
     },
@@ -76,7 +94,7 @@ function Dashboard() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tickets'] })
-      setDetailTicket(null)
+      setDetailTicketId(null)
       setToast({ type: 'success', message: 'Ticket marcado como resuelto' })
     },
     onError: () => {
@@ -89,9 +107,9 @@ function Dashboard() {
       const response = await api.patch(`/tickets/${id}`, fields)
       return response.data
     },
-    onSuccess: (updated) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tickets'] })
-      setDetailTicket((prev) => prev ? { ...prev, ...updated } : prev)
+      queryClient.invalidateQueries({ queryKey: ['ticket', detailTicketId] })
       setToast({ type: 'success', message: 'Cambios guardados' })
     },
     onError: () => {
@@ -104,11 +122,8 @@ function Dashboard() {
       const response = await api.post(`/tickets/${ticketId}/replies`, { text })
       return { ticketId, reply: response.data }
     },
-    onSuccess: ({ ticketId, reply }) => {
-      // Update detailTicket replies in-place so the thread updates immediately
-      setDetailTicket((prev) =>
-        prev?.id === ticketId ? { ...prev, replies: [...(prev.replies || []), reply] } : prev
-      )
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['ticket', detailTicketId] })
       queryClient.invalidateQueries({ queryKey: ['tickets'] })
     },
     onError: () => {
@@ -117,7 +132,7 @@ function Dashboard() {
   })
 
   const handleCloseTicket = (ticket) => {
-    setDetailTicket(null)
+    setDetailTicketId(null)
     setConfirmTicket(ticket)
   }
 
@@ -190,7 +205,7 @@ function Dashboard() {
             <Button
               variant="secondary"
               size="sm"
-              onClick={() => setDetailTicket(ticket)}
+              onClick={() => setDetailTicketId(ticket.id)}
             >
               Ver
             </Button>
@@ -230,14 +245,14 @@ function Dashboard() {
       {/* Modales */}
       <TicketDetailModal
         ticket={detailTicket}
-        onClose={() => setDetailTicket(null)}
+        onClose={() => setDetailTicketId(null)}
         onCloseTicket={handleCloseTicket}
         isClosing={closeTicketMutation.isPending}
         onResolveTicket={(ticket) => resolveTicketMutation.mutate(ticket.id)}
         isResolving={resolveTicketMutation.isPending}
-        onEditTicket={(fields) => editTicketMutation.mutate({ id: detailTicket.id, ...fields })}
+        onEditTicket={(fields) => editTicketMutation.mutate({ id: detailTicketId, ...fields })}
         isEditing={editTicketMutation.isPending}
-        onAddReply={(text) => addReplyMutation.mutate({ ticketId: detailTicket.id, text })}
+        onAddReply={(text) => addReplyMutation.mutate({ ticketId: detailTicketId, text })}
         isAddingReply={addReplyMutation.isPending}
         currentUser={user}
       />
