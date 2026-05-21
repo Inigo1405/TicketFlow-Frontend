@@ -4,6 +4,17 @@
 
 TicketFlow es una aplicación web moderna para la gestión de tickets de soporte técnico, desarrollada con React 18, Tailwind CSS y React Query.
 
+## Instalación y Ejecución
+```bash
+git clone https://github.com/Inigo1405/TicketFlow-Frontend.git
+cd TicketFlow-Frontend
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+Nota: ajusta `VITE_API_BASE_URL` en `.env.local` para apuntar a tu backend (usar HTTPS en producción).
+
 ## Características
 
 - **Gestión de tickets**: Crear, leer, actualizar y cerrar tickets
