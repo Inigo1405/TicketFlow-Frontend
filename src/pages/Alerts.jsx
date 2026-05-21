@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import api from '../services/api.js'
+import { useNotifications } from '../hooks/useNotifications.js'
 import Badge from '../components/Badge.jsx'
 import Button from '../components/Button.jsx'
 import LoadingSpinner from '../components/LoadingSpinner.jsx'
@@ -10,15 +11,8 @@ function Alerts() {
   const [toast, setToast] = useState(null)
   const queryClient = useQueryClient()
 
-  // Obtener notificaciones
-  const { data: notifications, isLoading, refetch } = useQuery({
-    queryKey: ['notifications'],
-    queryFn: async () => {
-      const response = await api.get('/notifications')
-      return response.data || []
-    },
-    staleTime: 1000 * 60 * 5, // 5 minutos
-  })
+  // Obtener notificaciones (polling cada 30 s via hook compartido)
+  const { data: notifications, isLoading } = useNotifications()
 
   // Marcar como leídas
   const markAsReadMutation = useMutation({

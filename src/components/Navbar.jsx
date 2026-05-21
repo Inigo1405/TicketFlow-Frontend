@@ -1,12 +1,14 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext.jsx'
 import { useTheme } from '../contexts/ThemeContext.jsx'
+import { useUnreadCount } from '../hooks/useNotifications.js'
 
 function Navbar() {
   const { user, logout } = useAuth()
   const { isDark, toggle } = useTheme()
   const navigate = useNavigate()
   const location = useLocation()
+  const { data: unreadCount = 0 } = useUnreadCount()
 
   const handleLogout = () => {
     logout()
@@ -45,13 +47,18 @@ function Navbar() {
                 <Link
                   key={to}
                   to={to}
-                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+                  className={`relative px-3 py-1.5 text-sm font-medium transition-colors ${
                     location.pathname === to
                       ? 'text-cyan-600 dark:text-cyan-400'
                       : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'
                   }`}
                 >
                   {label}
+                  {label === 'Alertas' && unreadCount > 0 && (
+                    <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 bg-cyan-500 text-zinc-900 text-[10px] font-bold flex items-center justify-center leading-none">
+                      {unreadCount > 99 ? '99+' : unreadCount}
+                    </span>
+                  )}
                 </Link>
               ))}
             </div>

@@ -1,5 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useAuth } from '../contexts/AuthContext.jsx'
 import api from '../services/api.js'
+
+const POLL_INTERVAL = 30_000 // 30 s
 
 export function useNotifications() {
   return useQuery({
@@ -8,7 +11,22 @@ export function useNotifications() {
       const response = await api.get('/notifications')
       return response.data || []
     },
-    staleTime: 1000 * 60 * 5, // 5 minutos
+    staleTime: POLL_INTERVAL,
+    refetchInterval: POLL_INTERVAL,
+  })
+}
+
+export function useUnreadCount() {
+  const { user } = useAuth()
+  return useQuery({
+    queryKey: ['notifications', 'unread-count'],
+    queryFn: async () => {
+      const response = await api.get('/notifications/unread-count')
+      return response.data?.unread ?? 0
+    },
+    staleTime: POLL_INTERVAL,
+    refetchInterval: POLL_INTERVAL,
+    enabled: !!user,
   })
 }
 
@@ -17,7 +35,7 @@ export function useMarkAsRead() {
 
   return useMutation({
     mutationFn: async (notificationId) => {
-      await api.post(`/notifications/${notificationId}/read`)
+      await api.patch(`/notifications/${notificationId}/read`)
       return notificationId
     },
     onSuccess: () => {
