@@ -141,8 +141,8 @@ function Dashboard() {
   }
 
   const filteredTickets = tickets?.filter((ticket) => {
-    // Agente: only show tickets matching their area
-    if (user?.role === 'Agente' && user?.area && ticket.category !== user.area) return false
+    // Agente: show tickets matching their area, plus uncategorized ones not yet processed
+    if (user?.role === 'Agente' && user?.area && ticket.tic_area !== user.area && ticket.tic_area !== 'uncategorized') return false
     if (filters.status && ticket.status !== filters.status) return false
     if (filters.priority && ticket.priority !== filters.priority) return false
     return true
