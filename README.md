@@ -1,4 +1,4 @@
-# TicketFlow-Frontedn
+# TicketFlow-Frontend
 Proyecto Final de Sistemas Distribuidos (Frontend)
 
 ## Descripción
