@@ -134,6 +134,46 @@ Estados vacíos para cuando no hay datos.
 2. Marcar como leídas individual o todas
 3. Eliminar notificaciones
 
+
+## Diagrama de flujo
+```mermaid
+flowchart TD
+  A[Inicio] --> B[Login]
+  B --> C{Autenticacion valida?}
+  C -- No --> B
+  C -- Si --> D{Rol}
+
+  D -- Admin --> E[Dashboard]
+  D -- Agente --> E
+  D -- Cliente --> F[Mis Tickets]
+
+  E --> G[Ver KPIs y lista de tickets]
+  E --> H[Filtrar por estado/prioridad]
+  E --> I[Abrir detalle de ticket]
+  E --> J[Cerrar ticket]
+  E --> K[Resolver ticket]
+  E --> L[Editar prioridad/notas]
+  E --> M[Crear ticket]
+  E --> N[Notificaciones]
+  E --> O[Admin de agentes]
+
+  F --> P[Ver mis tickets]
+  F --> Q[Abrir detalle de ticket]
+  F --> M
+  F --> N
+
+  I --> R[Agregar respuesta]
+  Q --> R
+  R --> I
+
+  M --> S[Formulario crear ticket]
+  S --> E
+  S --> F
+
+  N --> T[Marcar como leidas / eliminar]
+  O --> U[Gestionar agentes]
+```
+
 ## Manejo de Errores
 
 El interceptor de API maneja automáticamente:
