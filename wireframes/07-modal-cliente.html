@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>WF-07 Modal Cliente – TicketFlow</title>
+  <link rel="stylesheet" href="wf.css">
+</head>
+<body>
+
+  <!-- Barra de navegación entre wireframes -->
+  <div class="wf-topbar">
+    <span class="wf-topbar-title">WF:</span>
+    <a href="index.html">Índice</a>
+    <a href="01-login.html">01 Login</a>
+    <a href="02-dashboard.html">02 Dashboard</a>
+    <a href="03-alerts.html">03 Alertas</a>
+    <a href="04-create-ticket.html">04 Crear Ticket</a>
+    <a href="05-my-tickets.html">05 Mis Tickets</a>
+    <a href="06-modal-agente.html">06 Modal Agente</a>
+    <a href="07-modal-cliente.html" class="current">07 Modal Cliente</a>
+  </div>
+
+  <!-- Contexto: Mis Tickets con modal abierto -->
+  <nav class="wf-nav" style="opacity:0.5;">
+    <div class="wf-nav-brand">
+      <div class="wf-nav-logo"></div>
+      <span class="wf-nav-title">TicketFlow</span>
+    </div>
+    <div class="wf-nav-links">
+      <span class="wf-nav-link active">Mis Tickets</span>
+      <span class="wf-nav-link">Nuevo Ticket</span>
+    </div>
+    <div class="wf-nav-right">
+      <div class="wf-nav-info"><strong>María García</strong><span>Cliente</span></div>
+      <div class="wf-nav-avatar"></div>
+    </div>
+  </nav>
+
+  <!-- Fondo oscurecido de Mis Tickets -->
+  <div class="wf-modal-bg">
+
+    <p class="wf-note" style="text-align:center; margin-bottom:12px;">
+      Vista: Cliente &bull; Solo lectura &bull; Sin panel de edición &bull; Sin botones de cerrar/resolver
+    </p>
+
+    <!-- Modal -->
+    <div class="wf-modal">
+
+      <!-- Header -->
+      <div class="wf-modal-header">
+        <div class="wf-modal-id">#1004 &nbsp;&bull;&nbsp; Técnico</div>
+        <div class="wf-modal-title">Impresora no detectada en red local de planta</div>
+        <div class="wf-modal-close">✕</div>
+      </div>
+
+      <!-- Body -->
+      <div class="wf-modal-body">
+
+        <!-- Información básica (igual al de agente, notas ocultas) -->
+        <div class="wf-label-tag">Información del ticket</div>
+
+        <div class="wf-info-row">
+          <span class="wf-info-label">Estado</span>
+          <span class="wf-info-value"><span class="wf-badge wf-badge-green">Resuelto</span></span>
+        </div>
+        <div class="wf-info-row">
+          <span class="wf-info-label">Prioridad</span>
+          <span class="wf-info-value"><span class="wf-badge">Baja</span></span>
+        </div>
+        <div class="wf-info-row">
+          <span class="wf-info-label">Categoría</span>
+          <span class="wf-info-value">Técnico</span>
+        </div>
+        <div class="wf-info-row">
+          <span class="wf-info-label">Fecha</span>
+          <span class="wf-info-value">12/05/2026 &nbsp;09:45</span>
+        </div>
+        <div class="wf-info-row">
+          <span class="wf-info-label">SLA</span>
+          <span class="wf-info-value">
+            <span style="background:#e8f8f0;border:1px solid #a3d9b8;color:#1a5c35;padding:1px 8px;font-size:11px;">Dentro del tiempo</span>
+          </span>
+        </div>
+        <div class="wf-info-row">
+          <span class="wf-info-label">Descripción</span>
+          <span class="wf-info-value" style="line-height:1.5; color:#555;">
+            La impresora HP LaserJet de la planta baja dejó de aparecer en la lista de dispositivos de red.
+            Los demás equipos tampoco pueden localizarla. Se reinició el router pero no se resolvió.
+          </span>
+        </div>
+
+        <!-- Sin fila "Notas internas" – no visible para el cliente -->
+        <div style="background:#fffdf0; border:1px solid #e8e800; border-left:3px solid #cc0; padding:7px 12px; margin:10px 0; font-size:11px; color:#886600;">
+          Las notas internas del equipo no se muestran al cliente.
+        </div>
+
+        <hr class="wf-section-rule">
+
+        <!-- Respuestas del equipo – solo lectura -->
+        <div class="wf-label-tag">Respuestas del equipo de soporte</div>
+
+        <!-- Caso A: hay respuestas -->
+        <div class="wf-thread-list">
+
+          <div class="wf-reply">
+            <div class="wf-reply-meta">
+              <span class="wf-reply-author">Carlos López (Soporte)</span>
+              <span class="wf-reply-time">12/05/2026 11:20</span>
+            </div>
+            <div class="wf-reply-text">
+              Hola María, hemos encontrado el problema. Había una asignación de IP estática
+              incorrecta en el switch de planta. Ya está corregido, la impresora debería
+              ser visible nuevamente en tu red.
+            </div>
+          </div>
+
+          <div class="wf-reply">
+            <div class="wf-reply-meta">
+              <span class="wf-reply-author">Demo User (Soporte)</span>
+              <span class="wf-reply-time">12/05/2026 14:05</span>
+            </div>
+            <div class="wf-reply-text">
+              Confirmamos la resolución. El ticket queda marcado como resuelto.
+              No dudes en abrir uno nuevo si el problema persiste.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Caso B: sin respuestas aún (condicional) -->
+        <div class="wf-thread-empty">
+          Sin respuestas aún &mdash; el equipo responderá en breve.<br>
+          <span class="wf-note">(Este bloque se muestra cuando replies está vacío)</span>
+        </div>
+
+        <!-- Sin input de respuesta para el cliente -->
+        <p class="wf-note" style="text-align:center; padding:4px 0;">
+          El cliente solo puede leer las respuestas, no puede enviar mensajes desde aquí.
+        </p>
+
+      </div>
+
+      <!-- Footer – solo botón cerrar panel -->
+      <div class="wf-modal-footer" style="justify-content:flex-end;">
+        <button class="wf-btn wf-btn-sm wf-btn-outline">Cerrar panel</button>
+      </div>
+
+    </div>
+
+    <!-- Diferencias vs modal Agente -->
+    <div style="max-width:520px; margin:16px auto 0; background:#fff; border:1px solid #ddd; padding:14px 18px;">
+      <div class="wf-label-tag" style="margin-bottom:8px;">Diferencias vs. Modal Agente (WF-06)</div>
+      <table style="width:100%; font-size:11px; border-collapse:collapse;">
+        <tr>
+          <td style="padding:4px 8px; border:1px solid #eee; color:#888;">Panel de edición (prioridad + notas)</td>
+          <td style="padding:4px 8px; border:1px solid #eee; color:#a33; text-align:center;">Oculto</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 8px; border:1px solid #eee; color:#888;">Notas internas</td>
+          <td style="padding:4px 8px; border:1px solid #eee; color:#a33; text-align:center;">Oculto</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 8px; border:1px solid #eee; color:#888;">Input de respuesta / botón Enviar</td>
+          <td style="padding:4px 8px; border:1px solid #eee; color:#a33; text-align:center;">Oculto</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 8px; border:1px solid #eee; color:#888;">Botones Resolver / Cerrar ticket</td>
+          <td style="padding:4px 8px; border:1px solid #eee; color:#a33; text-align:center;">Oculto</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 8px; border:1px solid #eee; color:#888;">Respuestas del equipo (lectura)</td>
+          <td style="padding:4px 8px; border:1px solid #eee; color:#3a7; text-align:center;">Visible</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 8px; border:1px solid #eee; color:#888;">Botón "Cerrar panel"</td>
+          <td style="padding:4px 8px; border:1px solid #eee; color:#3a7; text-align:center;">Visible</td>
+        </tr>
+      </table>
+      <p class="wf-note mt-8">Condición: <span class="text-mono">currentUser?.role === 'Cliente'</span> en TicketDetailModal</p>
+    </div>
+
+  </div>
+
+</body>
+</html>

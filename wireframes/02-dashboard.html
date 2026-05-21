@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>WF-02 Dashboard – TicketFlow</title>
+  <link rel="stylesheet" href="wf.css">
+</head>
+<body>
+
+  <!-- Barra de navegación entre wireframes -->
+  <div class="wf-topbar">
+    <span class="wf-topbar-title">WF:</span>
+    <a href="index.html">Índice</a>
+    <a href="01-login.html">01 Login</a>
+    <a href="02-dashboard.html" class="current">02 Dashboard</a>
+    <a href="03-alerts.html">03 Alertas</a>
+    <a href="04-create-ticket.html">04 Crear Ticket</a>
+    <a href="05-my-tickets.html">05 Mis Tickets</a>
+    <a href="06-modal-agente.html">06 Modal Agente</a>
+    <a href="07-modal-cliente.html">07 Modal Cliente</a>
+  </div>
+
+  <!-- Navbar de la aplicación -->
+  <nav class="wf-nav">
+    <div class="wf-nav-brand">
+      <div class="wf-nav-logo">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <rect x="2" y="4" width="16" height="12" rx="1" stroke="white" stroke-width="1.5"/>
+          <path d="M2 8h16" stroke="white" stroke-width="1.2"/>
+          <rect x="4" y="10.5" width="4" height="1.5" fill="white"/>
+          <rect x="4" y="13" width="7" height="1.5" fill="white"/>
+        </svg>
+      </div>
+      <span class="wf-nav-title">TicketFlow</span>
+    </div>
+    <div class="wf-nav-links">
+      <span class="wf-nav-link active">Dashboard</span>
+      <span class="wf-nav-link">Alertas</span>
+      <span class="wf-nav-link">Nuevo Ticket</span>
+    </div>
+    <div class="wf-nav-right">
+      <div style="text-align:right;">
+        <div class="wf-nav-info"><strong>Demo User</strong><span>Admin</span></div>
+      </div>
+      <div class="wf-nav-avatar"></div>
+      <button class="wf-nav-btn">Salir</button>
+    </div>
+  </nav>
+
+  <!-- Contenido principal -->
+  <div class="container">
+
+    <!-- Encabezado -->
+    <div class="page-header">
+      <div>
+        <div class="page-title">Dashboard</div>
+        <div class="page-subtitle">Vista general de todos los tickets del sistema</div>
+      </div>
+      <a href="04-create-ticket.html" class="wf-btn">+ Nuevo ticket</a>
+    </div>
+
+    <!-- KPIs -->
+    <div class="wf-kpi-grid">
+
+      <div class="wf-kpi">
+        <div>
+          <div class="wf-kpi-label">Total tickets</div>
+          <div class="wf-kpi-value">10</div>
+          <div class="wf-note">Tickets registrados</div>
+        </div>
+        <div class="wf-kpi-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="4" width="16" height="12" rx="1" stroke="#888" stroke-width="1.5"/>
+            <path d="M2 8h16" stroke="#888" stroke-width="1"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="wf-kpi">
+        <div>
+          <div class="wf-kpi-label">Abiertos</div>
+          <div class="wf-kpi-value">4</div>
+          <div class="wf-note">Pendientes de resolución</div>
+        </div>
+        <div class="wf-kpi-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="7" stroke="#888" stroke-width="1.5"/>
+            <path d="M10 6v4l3 2" stroke="#888" stroke-width="1.5"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="wf-kpi">
+        <div>
+          <div class="wf-kpi-label">Críticos</div>
+          <div class="wf-kpi-value">2</div>
+          <div class="wf-note">Prioridad crítica</div>
+        </div>
+        <div class="wf-kpi-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 3L18 17H2L10 3z" stroke="#888" stroke-width="1.5"/>
+            <line x1="10" y1="9" x2="10" y2="13" stroke="#888" stroke-width="1.5"/>
+            <circle cx="10" cy="15" r="0.8" fill="#888"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="wf-kpi">
+        <div>
+          <div class="wf-kpi-label">Resueltos hoy</div>
+          <div class="wf-kpi-value">3</div>
+          <div class="wf-note">Cerrados + resueltos</div>
+        </div>
+        <div class="wf-kpi-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="7" stroke="#888" stroke-width="1.5"/>
+            <path d="M7 10l2 2 4-4" stroke="#888" stroke-width="1.5"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Nota Agente -->
+    <div style="background:#fffff0; border:1px solid #e8e800; padding:8px 14px; margin-bottom:12px; font-size:11px; color:#666;">
+      <strong>Nota:</strong> Si el usuario es <strong>Agente</strong>, los KPIs muestran solo los tickets de su área (<span class="text-mono">category === user.area</span>).
+    </div>
+
+    <!-- Filtros -->
+    <div class="wf-filters">
+      <div class="wf-filter-group">
+        <span class="wf-filter-label">Estado</span>
+        <select class="wf-select-box" disabled>
+          <option>Todos los estados</option>
+          <option>Abierto</option>
+          <option>En proceso</option>
+          <option>Resuelto</option>
+          <option>Cerrado</option>
+        </select>
+      </div>
+      <div class="wf-filter-group">
+        <span class="wf-filter-label">Prioridad</span>
+        <select class="wf-select-box" disabled>
+          <option>Todas las prioridades</option>
+          <option>Crítica</option>
+          <option>Alta</option>
+          <option>Media</option>
+          <option>Baja</option>
+        </select>
+      </div>
+      <div class="wf-filter-group" style="flex:2;">
+        <span class="wf-filter-label">Buscar</span>
+        <input type="text" class="wf-select-box" placeholder="Buscar por título o ID..." disabled>
+      </div>
+      <button class="wf-btn-outline wf-btn" style="align-self:flex-end;">Limpiar</button>
+    </div>
+
+    <!-- Tabla de tickets -->
+    <div class="wf-table-wrap">
+      <table class="wf-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Categoría</th>
+            <th>Prioridad</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td class="text-mono">#1001</td>
+            <td>Error al iniciar sesión en el portal</td>
+            <td><span class="wf-badge">Técnico</span></td>
+            <td><span class="wf-badge wf-badge-red">Crítica</span></td>
+            <td><span class="wf-badge wf-badge-blue">Abierto</span></td>
+            <td>15/05/2026</td>
+            <td>
+              <a href="06-modal-agente.html" class="wf-btn wf-btn-sm">Ver</a>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="text-mono">#1002</td>
+            <td>Factura incorrecta del mes de abril</td>
+            <td><span class="wf-badge">Facturación</span></td>
+            <td><span class="wf-badge wf-badge-orange">Alta</span></td>
+            <td><span class="wf-badge wf-badge-blue">En proceso</span></td>
+            <td>14/05/2026</td>
+            <td>
+              <a href="06-modal-agente.html" class="wf-btn wf-btn-sm">Ver</a>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="text-mono">#1003</td>
+            <td>Solicitud de acceso a módulo CRM</td>
+            <td><span class="wf-badge">Accesos</span></td>
+            <td><span class="wf-badge wf-badge-yellow">Media</span></td>
+            <td><span class="wf-badge wf-badge-blue">Abierto</span></td>
+            <td>13/05/2026</td>
+            <td>
+              <a href="06-modal-agente.html" class="wf-btn wf-btn-sm">Ver</a>
+            </td>
+          </tr>
+
+          <tr class="row-resolved">
+            <td class="text-mono">#1004</td>
+            <td>Impresora no detectada en red</td>
+            <td><span class="wf-badge">Técnico</span></td>
+            <td><span class="wf-badge">Baja</span></td>
+            <td><span class="wf-badge wf-badge-green">Resuelto</span></td>
+            <td>12/05/2026</td>
+            <td>
+              <a href="06-modal-agente.html" class="wf-btn wf-btn-sm">Ver</a>
+            </td>
+          </tr>
+
+          <tr class="row-closed">
+            <td class="text-mono">#1005</td>
+            <td>Pantalla en negro al abrir informe PDF</td>
+            <td><span class="wf-badge">Técnico</span></td>
+            <td><span class="wf-badge wf-badge-orange">Alta</span></td>
+            <td><span class="wf-badge wf-badge-red">Cerrado</span></td>
+            <td>10/05/2026</td>
+            <td>
+              <a href="06-modal-agente.html" class="wf-btn wf-btn-sm">Ver</a>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="text-mono">#1006</td>
+            <td>Cobro doble en suscripción anual</td>
+            <td><span class="wf-badge">Facturación</span></td>
+            <td><span class="wf-badge wf-badge-red">Crítica</span></td>
+            <td><span class="wf-badge wf-badge-blue">En proceso</span></td>
+            <td>09/05/2026</td>
+            <td>
+              <a href="06-modal-agente.html" class="wf-btn wf-btn-sm">Ver</a>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+      <div class="wf-table-footer">Mostrando 6 de 10 tickets &nbsp;|&nbsp; Actualización automática cada 30 s</div>
+    </div>
+
+    <!-- Leyenda -->
+    <div class="flex gap-12 mt-8" style="font-size:11px; color:#888;">
+      <span>Filas: &nbsp;</span>
+      <span style="background:#f3fef6; border:1px solid #ccc; padding:2px 8px;">Resuelto</span>
+      <span style="background:#fff5f5; border:1px solid #ccc; padding:2px 8px;">Cerrado</span>
+      <span class="wf-note">| Haz clic en "Ver" para abrir el modal de detalle</span>
+    </div>
+
+  </div>
+
+</body>
+</html>

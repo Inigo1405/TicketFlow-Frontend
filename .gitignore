@@ -24,3 +24,10 @@ dist-ssr
 *.sw?
 
 .env
+.env.development
+.env.production
+.env.test
+.env.local
+
+mocks/
+scripts/

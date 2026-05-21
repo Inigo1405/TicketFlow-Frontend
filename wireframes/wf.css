@@ -1,0 +1,359 @@
+/* ============================================================
+   TicketFlow – Wireframes de baja fidelidad
+   Paleta: blanco / grises. Sin color real.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: #ebebeb;
+  color: #1a1a1a;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ── Navegación ──────────────────────────────────────────── */
+.wf-nav {
+  background: #1e1e1e;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 0;
+}
+.wf-nav-brand { display: flex; align-items: center; gap: 10px; }
+.wf-nav-logo {
+  width: 36px; height: 36px;
+  background: #555;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.wf-nav-logo svg { opacity: 0.9; }
+.wf-nav-title { color: #fff; font-weight: bold; font-size: 15px; }
+.wf-nav-links { display: flex; gap: 2px; padding-left: 28px; flex: 1; }
+.wf-nav-link { color: #aaa; font-size: 12px; padding: 7px 12px; }
+.wf-nav-link.active { color: #fff; background: #3a3a3a; }
+.wf-nav-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+.wf-nav-avatar {
+  width: 32px; height: 32px;
+  background: #666; border-radius: 50%;
+}
+.wf-nav-info { color: #ccc; }
+.wf-nav-info strong { display: block; color: #fff; font-size: 12px; }
+.wf-nav-info span { font-size: 10px; }
+.wf-nav-btn {
+  background: #333; color: #ddd;
+  border: 1px solid #555;
+  padding: 5px 10px; font-size: 11px; cursor: pointer;
+}
+
+/* ── Layout ──────────────────────────────────────────────── */
+.container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+.page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+.page-title { font-size: 22px; font-weight: bold; }
+.page-subtitle { color: #888; font-size: 12px; margin-top: 3px; }
+
+/* ── Tarjetas ────────────────────────────────────────────── */
+.wf-card { background: #fff; border: 1px solid #ccc; }
+.wf-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+.wf-kpi { background: #fff; border: 1px solid #ccc; padding: 18px 16px; display: flex; justify-content: space-between; align-items: flex-start; }
+.wf-kpi-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+.wf-kpi-value { font-size: 34px; font-weight: bold; color: #222; }
+.wf-kpi-icon { width: 42px; height: 42px; background: #e8e8e8; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+
+/* ── Filtros ─────────────────────────────────────────────── */
+.wf-filters {
+  background: #fff; border: 1px solid #ccc;
+  padding: 12px 16px; display: flex; gap: 16px; margin-bottom: 12px; align-items: flex-end;
+}
+.wf-filter-group { flex: 1; }
+.wf-filter-label { font-size: 10px; text-transform: uppercase; color: #888; margin-bottom: 4px; letter-spacing: 0.06em; display: block; }
+.wf-select-box {
+  border: 1px solid #ccc; padding: 7px 10px;
+  background: #f8f8f8; font-size: 12px; color: #666; width: 100%;
+}
+
+/* ── Tabla ───────────────────────────────────────────────── */
+.wf-table-wrap { background: #fff; border: 1px solid #ccc; }
+.wf-table { width: 100%; border-collapse: collapse; }
+.wf-table th {
+  background: #f0f0f0; padding: 9px 12px;
+  text-align: left; font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.06em; color: #666;
+  border-bottom: 1px solid #ddd; font-weight: bold;
+}
+.wf-table td {
+  padding: 9px 12px; border-bottom: 1px solid #f0f0f0;
+  font-size: 12px; color: #555; vertical-align: middle;
+}
+.wf-table tr:last-child td { border-bottom: none; }
+.wf-table tr.row-closed { background: #fff5f5; }
+.wf-table tr.row-resolved { background: #f3fef6; }
+.wf-table-footer { padding: 8px 12px; background: #f8f8f8; border-top: 1px solid #e8e8e8; font-size: 10px; color: #aaa; }
+
+/* ── Badges ──────────────────────────────────────────────── */
+.wf-badge {
+  display: inline-block; padding: 2px 8px;
+  font-size: 10px; font-weight: bold;
+  border: 1px solid #ccc; background: #e8e8e8; color: #555;
+}
+.wf-badge-red    { background: #ffe0e0; border-color: #f5b0b0; color: #c00; }
+.wf-badge-orange { background: #fff3e0; border-color: #ffcc80; color: #c05000; }
+.wf-badge-blue   { background: #e8f0ff; border-color: #aac4f5; color: #1a56db; }
+.wf-badge-green  { background: #e8f8f0; border-color: #a3d9b8; color: #0a7c42; }
+.wf-badge-yellow { background: #fffde0; border-color: #e8d800; color: #776600; }
+
+/* ── Botones ─────────────────────────────────────────────── */
+.wf-btn {
+  display: inline-block; background: #1e1e1e; color: #fff;
+  padding: 8px 18px; font-size: 11px; letter-spacing: 0.08em;
+  text-transform: uppercase; border: none; cursor: pointer;
+  text-decoration: none; text-align: center;
+}
+.wf-btn-sm { padding: 5px 10px; font-size: 10px; }
+.wf-btn-outline { background: #fff; color: #333; border: 1px solid #bbb; }
+.wf-btn-danger  { background: #8b1c1c; }
+.wf-btn-green   { background: #1a5c35; }
+.wf-btn-indigo  { background: #2d2d80; }
+.wf-btn-ghost   { background: #fff; color: #1a5c35; border: 1px solid #a3d9b8; }
+
+/* ── Inputs / Form ───────────────────────────────────────── */
+.wf-field { margin-bottom: 18px; }
+.wf-label {
+  display: block; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: #777; margin-bottom: 4px;
+}
+.wf-label-req::after { content: ' *'; color: #c00; }
+.wf-input {
+  display: block; width: 100%;
+  padding: 7px 10px; border: 1px solid #ccc;
+  background: #f8f8f8; font-size: 13px; color: #555;
+}
+.wf-input-underline {
+  border: none; border-bottom: 1.5px solid #aaa;
+  width: 100%; padding: 4px 2px;
+  background: transparent; font-size: 13px; color: #666;
+}
+.wf-textarea {
+  display: block; width: 100%;
+  padding: 8px 10px; border: 1px solid #ccc;
+  background: #f8f8f8; resize: none;
+  font-size: 13px; color: #555;
+}
+.wf-select {
+  display: block; width: 100%;
+  padding: 7px 10px; border: 1px solid #ccc;
+  background: #f8f8f8; font-size: 13px; color: #555;
+}
+.wf-radio-option {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px; border: 1px solid #ddd; margin-bottom: 6px;
+  background: #f8f8f8;
+}
+.wf-radio-option.selected { border-color: #666; background: #eeeeee; }
+.wf-radio-dot {
+  width: 14px; height: 14px; border: 1.5px solid #999;
+  border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.wf-radio-dot.checked::after {
+  content: ''; width: 6px; height: 6px;
+  background: #333; border-radius: 50%; display: block;
+}
+
+/* ── Modal ───────────────────────────────────────────────── */
+.wf-modal-bg {
+  background: rgba(0,0,0,0.2);
+  min-height: 100vh; padding: 40px 20px;
+}
+.wf-modal {
+  background: #fff; border: 1px solid #bbb;
+  max-width: 520px; margin: 0 auto;
+}
+.wf-modal-header {
+  background: #f4f4f4; border-bottom: 1px solid #ddd;
+  padding: 16px 20px; position: relative;
+}
+.wf-modal-id { font-family: 'Courier New', monospace; font-size: 10px; color: #999; margin-bottom: 2px; }
+.wf-modal-title { font-size: 14px; font-weight: bold; color: #222; padding-right: 24px; }
+.wf-modal-close {
+  position: absolute; top: 14px; right: 16px;
+  width: 20px; height: 20px; background: #ddd;
+  font-size: 12px; display: flex; align-items: center;
+  justify-content: center; cursor: pointer;
+}
+.wf-modal-body { padding: 16px 20px; overflow-y: auto; max-height: 70vh; }
+.wf-modal-footer {
+  background: #f4f4f4; border-top: 1px solid #ddd;
+  padding: 12px 20px; display: flex;
+  justify-content: flex-end; gap: 8px;
+}
+
+.wf-info-row {
+  display: flex; padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.wf-info-row:last-child { border-bottom: none; }
+.wf-info-label {
+  width: 130px; font-size: 10px; color: #888;
+  flex-shrink: 0; font-weight: bold;
+  text-transform: uppercase; letter-spacing: 0.04em; padding-top: 1px;
+}
+.wf-info-value { font-size: 12px; color: #333; }
+
+/* ── Edit panel (Agente) ─────────────────────────────────── */
+.wf-edit-panel {
+  background: #f0f0ff; border: 1px solid #c8c8e8;
+  padding: 14px; margin-top: 14px;
+}
+.wf-edit-panel-title {
+  font-size: 10px; font-weight: bold;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: #4040a0; margin-bottom: 12px;
+}
+
+/* ── Hilo de comentarios ─────────────────────────────────── */
+.wf-thread { margin-top: 14px; }
+.wf-thread-title {
+  font-size: 10px; font-weight: bold;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: #888; margin-bottom: 8px;
+}
+.wf-thread-list {
+  background: #f4f4f4; padding: 10px; margin-bottom: 8px;
+}
+.wf-reply {
+  background: #fff; border: 1px solid #e4e4e4;
+  padding: 8px 10px; margin-bottom: 6px;
+}
+.wf-reply:last-child { margin-bottom: 0; }
+.wf-reply-meta { display: flex; justify-content: space-between; margin-bottom: 3px; }
+.wf-reply-author { font-size: 10px; font-weight: bold; color: #2d2d80; }
+.wf-reply-time { font-size: 10px; color: #bbb; }
+.wf-reply-text { font-size: 12px; color: #444; }
+.wf-chat-input-row { display: flex; gap: 6px; }
+.wf-chat-input {
+  flex: 1; padding: 6px 10px;
+  border: 1px solid #ccc; background: #f8f8f8; font-size: 12px;
+}
+.wf-thread-empty {
+  font-size: 11px; color: #aaa;
+  text-align: center; padding: 16px; background: #f4f4f4;
+  margin-bottom: 8px; border: 1px dashed #ddd;
+}
+
+/* ── Alertas/Notificaciones ──────────────────────────────── */
+.wf-stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+.wf-stat { background: #fff; border: 1px solid #ccc; padding: 18px; text-align: center; }
+.wf-stat-value { font-size: 32px; font-weight: bold; }
+.wf-stat-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 3px; }
+.wf-stat-icon { font-size: 22px; margin-bottom: 6px; }
+
+.wf-notif {
+  background: #fff; border: 1px solid #ddd;
+  border-left: 4px solid #bbb;
+  padding: 12px 16px; margin-bottom: 8px;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.wf-notif.error   { border-left-color: #a33; }
+.wf-notif.warning { border-left-color: #a63; }
+.wf-notif.info    { border-left-color: #36a; }
+.wf-notif.success { border-left-color: #3a7; }
+.wf-notif-icon {
+  width: 36px; height: 36px; background: #e8e8e8;
+  flex-shrink: 0; display: flex; align-items: center;
+  justify-content: center; font-size: 16px;
+}
+.wf-notif-body { flex: 1; min-width: 0; }
+.wf-notif-title { font-size: 13px; font-weight: bold; }
+.wf-notif-msg { font-size: 11px; color: #666; margin-top: 2px; }
+.wf-notif-time { font-size: 10px; color: #aaa; margin-top: 3px; }
+.wf-notif-actions { display: flex; gap: 6px; align-items: flex-start; flex-shrink: 0; }
+
+/* ── Login ───────────────────────────────────────────────── */
+.wf-login-page {
+  min-height: 100vh; display: flex;
+  flex-direction: column; align-items: center;
+  justify-content: center; background: #ebebeb; padding: 20px;
+}
+.wf-login-card {
+  background: #fff; border: 1px solid #ccc;
+  width: 100%; max-width: 400px; padding: 36px 32px;
+}
+.wf-login-brand { text-align: center; margin-bottom: 28px; }
+.wf-login-logo {
+  width: 64px; height: 64px; background: #333;
+  margin: 0 auto 12px; display: flex;
+  align-items: center; justify-content: center;
+}
+.wf-login-logo svg { opacity: 0.9; }
+.wf-login-title { font-size: 20px; font-weight: bold; }
+.wf-login-subtitle { font-size: 12px; color: #888; margin-top: 2px; }
+.wf-quick-access { margin-top: 20px; padding-top: 16px; border-top: 1px solid #eee; }
+.wf-quick-title { font-size: 10px; color: #aaa; text-align: center; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+.wf-quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.wf-quick-btn {
+  border: 1px solid #ddd; padding: 7px 6px;
+  background: #f8f8f8; text-align: left; cursor: pointer;
+}
+.wf-quick-btn strong { display: block; font-size: 11px; }
+.wf-quick-btn span { font-size: 10px; color: #aaa; }
+
+/* ── Utilidades ──────────────────────────────────────────── */
+.flex { display: flex; }
+.flex-end { justify-content: flex-end; }
+.items-center { align-items: center; }
+.gap-6  { gap: 6px;  }
+.gap-8  { gap: 8px;  }
+.gap-12 { gap: 12px; }
+.gap-16 { gap: 16px; }
+.mb-4  { margin-bottom: 4px;  }
+.mb-8  { margin-bottom: 8px;  }
+.mb-12 { margin-bottom: 12px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-24 { margin-bottom: 24px; }
+.mt-4  { margin-top: 4px; }
+.mt-8  { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.pt-12 { padding-top: 12px; }
+.border-top { border-top: 1px solid #eee; }
+.text-gray { color: #888; font-size: 11px; }
+.text-mono { font-family: 'Courier New', monospace; font-size: 11px; color: #888; }
+.bold { font-weight: bold; }
+.w-full { width: 100%; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* ── Anotaciones de wireframe ────────────────────────────── */
+.wf-chip {
+  display: inline-block; background: #fff; border: 1px solid #bbb;
+  font-size: 10px; padding: 1px 6px; color: #666;
+}
+.wf-note {
+  font-size: 10px; color: #aaa; font-style: italic;
+}
+.wf-section-rule {
+  border: none; border-top: 1px dashed #ccc; margin: 14px 0;
+}
+.wf-label-tag {
+  display: inline-block; background: #1e1e1e; color: #fff;
+  font-size: 9px; padding: 2px 6px; letter-spacing: 0.08em;
+  text-transform: uppercase; margin-bottom: 12px;
+}
+
+/* ── Barra de navegación de wireframes ───────────────────── */
+.wf-topbar {
+  background: #2d2d2d; padding: 8px 20px;
+  display: flex; align-items: center; gap: 8px;
+  position: sticky; top: 0; z-index: 100;
+}
+.wf-topbar a {
+  color: #ccc; font-size: 11px; text-decoration: none;
+  padding: 4px 8px; border: 1px solid #555;
+}
+.wf-topbar a:hover { background: #444; }
+.wf-topbar a.current { background: #555; color: #fff; }
+.wf-topbar-title { color: #888; font-size: 11px; margin-right: 8px; }
